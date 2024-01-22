@@ -9,17 +9,20 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "expo": "^49.0.22",
-    "expo-status-bar": "~1.11.1",
+    "expo": "49.0.22",
+    "expo-status-bar": "1.6.0",
     "react": "18.2.0",
-    "react-native": "^0.73.2"
+    "react-native": "0.72.6",
+    "react-native-web": "~0.19.6",
+    "react-dom": "18.2.0",
+    "@expo/webpack-config": "^19.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@tsconfig/react-native": "^3.0.3",
     "@types/jest": "^29.5.11",
     "@types/react": "~18.2.45",
-    "@types/react-native": "^0.73.0",
+    "@types/react-native": "0.72.6",
     "@types/react-test-renderer": "^18.0.7",
     "typescript": "^5.3.3"
   },
