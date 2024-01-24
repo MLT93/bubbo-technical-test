@@ -1,7 +1,7 @@
 import "dotenv/config";
 import passport from "passport";
 import passportJWT from "passport-jwt";
-import { firebase } from "./firebase.js";
+import { firebase } from "./database.js";
 
 const { SECRET } = process.env;
 

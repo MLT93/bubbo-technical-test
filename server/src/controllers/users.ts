@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { firebase } from "./../firebase.js";
+import { firebase } from "../database.js";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 

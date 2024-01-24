@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import joi from "joi";
-import { firebase } from "./../firebase.js";
+import { firebase } from "../database.js";
 
 type Book = {
   id?: number;
