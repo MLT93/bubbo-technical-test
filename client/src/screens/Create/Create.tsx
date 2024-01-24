@@ -19,111 +19,66 @@ import {
   getDoc,
   setDoc,
 } from "firebase/firestore";
-import axios from "axios";
-
 const db = getFirestore(appFirebase);
 
 const Create = (props: any) => {
-  const [state, setState] = useState({
+  const [book, setBook] = useState({
     titulo: "",
     autor: "",
     genero: "",
     fecha: "",
     isbn: "",
   });
+  const handleInputChangeText = (name: string, value: string) => {
+    setBook({ ...book, [name]: value });
+  };
 
   const [isDisabled, setIsDisabled] = useState(true);
   useEffect(() => {
-    state.titulo.trim() !== "" &&
-    state.autor.trim() !== "" &&
-    state.genero.trim() !== "" &&
-    state.fecha.trim() !== "" &&
-    state.isbn.trim() !== ""
+    book.titulo.trim() !== "" &&
+    book.autor.trim() !== "" &&
+    book.genero.trim() !== "" &&
+    book.fecha.trim() !== "" &&
+    book.isbn.trim() !== ""
       ? setIsDisabled(false)
       : setIsDisabled(true);
-  }, [state, setIsDisabled]);
-
-  const handleInputChangeText = (name: string, value: string) => {
-    setState({ ...state, [name]: value });
-  };
+  }, [book, setIsDisabled]);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [data, setData] = useState([]);
-  const URL = "https://my-json-server.typicode.com/typicode/demo/posts";
   const handleSubmitSavedBook = async () => {
-    useEffect(() => {
+    try {
       setLoading(true);
-      (async () => {
-        try {
-          await addDoc(collection(db, "Library"), {
-            ...state,
-          });
-
-          Alert.alert(`Éxito!`, `Tu Libro se ha guardado`);
-          props;
-
-          let response = await fetch(URL);
-
-          if (!response.ok) {
-            throw new Error(
-              `Ocurrió un error. Response: ${response.ok}, Status: ${response.status}, StatusText: ${response.statusText}`
-            );
-          }
-
-          console.log(`Response: ${response.status}`);
-
-          const data = await response.json();
-
-          console.log(data);
-
-          setData(data.fact);
-        } catch (err: any) {
-          setError(err);
-          if (err instanceof SyntaxError) {
-            console.error(`Error de sintaxis: ${err.message}`);
-          }
-          if (err instanceof TypeError) {
-            console.error(`Error de tipo: ${err.message}`);
-          }
-        } finally {
-          setLoading(false);
-        }
-      })();
-    }, [URL]);
-
-    /*     useEffect(() => {
-      setLoading(true);
-      ((URL) => {
-        axios
-          .get(URL)
-          .then((res: { data: any }) => setData(res.data))
-          .catch((err) => {
-            setError(err.message);
-            console.error(err);
-          })
-          .finally(() => {
-            setLoading(false);
-            console.log(`The process was finished`);
-          });
-      })(URL);
-    }, [URL]); */
-    // console.log(state);
+      await addDoc(collection(db, "bubbo-library"), {
+        ...book,
+      });
+      Alert.alert(`Éxito!`, `Tu Libro se ha guardado`);
+      props.navigation.navigate("Library");
+    } catch (err: any) {
+      setError(err);
+      if (err instanceof SyntaxError) {
+        console.error(`Error de sintaxis: ${err.message}`);
+      }
+      if (err instanceof TypeError) {
+        console.error(`Error de tipo: ${err.message}`);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleResetForm = () => {
-    setState({ titulo: "", autor: "", genero: "", fecha: "", isbn: "" });
+    setBook({ titulo: "", autor: "", genero: "", fecha: "", isbn: "" });
   };
 
-  const [buttonColor, setButtonColor] = useState("#f30000ba");
-  const { isbn } = state;
+  /* const { isbn } = book;
   if (isbn) {
-    if (state.isbn.length > 10) {
+    if (book.isbn.length > 10) {
       setButtonColor("#f30000ba");
     } else {
       setButtonColor("green");
     }
-  }
+  } */
 
   const inputRef = useRef<TextInput>(null);
   useEffect(() => {
@@ -139,35 +94,35 @@ const Create = (props: any) => {
           <TextInput
             placeholder="Titulo"
             onChangeText={(value) => handleInputChangeText("titulo", value)}
-            value={state.titulo}
+            value={book.titulo}
           />
         </View>
         <View>
           <TextInput
             placeholder="Autor"
             onChangeText={(value) => handleInputChangeText("autor", value)}
-            value={state.autor}
+            value={book.autor}
           />
         </View>
         <View>
           <TextInput
             placeholder="Género"
             onChangeText={(value) => handleInputChangeText("genero", value)}
-            value={state.genero}
+            value={book.genero}
           />
         </View>
         <View>
           <TextInput
             placeholder="Fecha de publicación"
             onChangeText={(value) => handleInputChangeText("fecha", value)}
-            value={state.fecha}
+            value={book.fecha}
           />
         </View>
         <View>
           <TextInput
             placeholder="Código internacional"
             onChangeText={(value) => handleInputChangeText("isbn", value)}
-            value={state.isbn}
+            value={book.isbn}
           />
         </View>
       </ScrollView>
@@ -187,11 +142,11 @@ const Create = (props: any) => {
 
 const styles = StyleSheet.create({
   button: {
-    display: "flex",
-
+    textAlign: "center",
+    alignItems: "center",
     padding: 10,
     margin: 10,
-    backgroundColor: "lightblue",
+    backgroundColor: "blue",
   },
   buttonText: {
     color: "white",

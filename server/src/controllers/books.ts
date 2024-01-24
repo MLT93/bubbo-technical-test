@@ -8,7 +8,6 @@ type Book = {
   author: string;
   genre: string;
   publication_date: string;
-  isbn: string;
 };
 
 const bookScheme = joi.object({
@@ -17,7 +16,6 @@ const bookScheme = joi.object({
   author: joi.string().required(),
   genre: joi.string().required(),
   publication_date: joi.string().required(),
-  isbn: joi.string().required(),
 });
 
 const getAll = async (req: Request, res: Response) => {
@@ -36,13 +34,12 @@ const getOneById = async (req: Request, res: Response) => {
 };
 
 const create = async (req: Request, res: Response) => {
-  const { title, author, genre, publication_date, isbn } = req.body;
+  const { title, author, genre, publication_date } = req.body;
   const newBook: Book = {
     title: title,
     author: author,
     genre: genre,
     publication_date: publication_date,
-    isbn: isbn,
   };
 
   const validateNewBook = bookScheme.validate(newBook);
@@ -52,8 +49,8 @@ const create = async (req: Request, res: Response) => {
       .json({ msg: validateNewBook.error.details[0].message });
   } else {
     await firebase.none(
-      `INSERT INTO books (title, author, genre, publication_date, isbn) VALUES ($1, $2, $3, $4, $5)`,
-      [title, author, genre, publication_date, isbn]
+      `INSERT INTO books (title, author, genre, publication_date) VALUES ($1, $2, $3, $4)`,
+      [title, author, genre, publication_date]
     );
 
     res.status(201).json({ msg: "The book was created" });
@@ -62,10 +59,10 @@ const create = async (req: Request, res: Response) => {
 
 const updateById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { title, author, genre, publication_date, isbn } = req.body;
+  const { title, author, genre, publication_date } = req.body;
   await firebase.none(
-    `UPDATE books SET title=$2, author=$3, genre=$4, publication_date=$5, isbn=$6 WHERE book_id=$1`,
-    [id, title, author, genre, publication_date, isbn]
+    `UPDATE books SET title=$2, author=$3, genre=$4, publication_date=$5 WHERE book_id=$1`,
+    [id, title, author, genre, publication_date]
   );
 
   res.status(200).json({ msg: "The book was updated" });

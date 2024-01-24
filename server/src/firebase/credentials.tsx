@@ -12,8 +12,8 @@ const firebaseConfig = {
   projectId: "bubbo-technical-test-c3751",
   storageBucket: "bubbo-technical-test-c3751.appspot.com",
   messagingSenderId: "781348287499",
-  appId: "1:781348287499:web:dc21cc9ea24165da31830e",
-  measurementId: "G-F703RR4RWB",
+  appId: "1:781348287499:web:aa48d90b0054688031830e",
+  measurementId: "G-B2RJREX0MB"
 };
 
 // Initialize Firebase

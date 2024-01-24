@@ -18,5 +18,4 @@ CREATE TABLE
     author VARCHAR(30) NOT NULL,
     genre VARCHAR(15) NOT NULL,
     publication_date DATE NOT NULL,
-    isbn VARCHAR(10) NOT NULL UNIQUE
   );
