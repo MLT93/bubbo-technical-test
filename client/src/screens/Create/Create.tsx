@@ -8,26 +8,21 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import { appFirebase } from "../../../../server/src/firebase/credentials";
+import { appFirebase } from "../../../credentials.mjs";
 import {
   getFirestore,
   collection,
   addDoc,
-  getDocs,
-  doc,
-  deleteDoc,
-  getDoc,
-  setDoc,
 } from "firebase/firestore";
+
 const db = getFirestore(appFirebase);
 
 const Create = (props: any) => {
   const [book, setBook] = useState({
-    titulo: "",
-    autor: "",
-    genero: "",
-    fecha: "",
-    isbn: "",
+    title: "",
+    author: "",
+    genre: "",
+    date: "",
   });
   const handleInputChangeText = (name: string, value: string) => {
     setBook({ ...book, [name]: value });
@@ -35,11 +30,10 @@ const Create = (props: any) => {
 
   const [isDisabled, setIsDisabled] = useState(true);
   useEffect(() => {
-    book.titulo.trim() !== "" &&
-    book.autor.trim() !== "" &&
-    book.genero.trim() !== "" &&
-    book.fecha.trim() !== "" &&
-    book.isbn.trim() !== ""
+    book.title.trim() !== "" &&
+    book.author.trim() !== "" &&
+    book.genre.trim() !== "" &&
+    book.date.trim() !== ""
       ? setIsDisabled(false)
       : setIsDisabled(true);
   }, [book, setIsDisabled]);
@@ -49,10 +43,11 @@ const Create = (props: any) => {
   const handleSubmitSavedBook = async () => {
     try {
       setLoading(true);
-      await addDoc(collection(db, "bubbo-library"), {
+      const docAdded = await addDoc(collection(db, "library"), {
         ...book,
       });
-      Alert.alert(`Éxito!`, `Tu Libro se ha guardado`);
+      console.log(`Document written with ID: ${docAdded.id}`);
+      Alert.alert(`Your book has been saved.`);
       props.navigation.navigate("Library");
     } catch (err: any) {
       setError(err);
@@ -68,17 +63,8 @@ const Create = (props: any) => {
   };
 
   const handleResetForm = () => {
-    setBook({ titulo: "", autor: "", genero: "", fecha: "", isbn: "" });
+    setBook({ title: "", author: "", genre: "", date: "" });
   };
-
-  /* const { isbn } = book;
-  if (isbn) {
-    if (book.isbn.length > 10) {
-      setButtonColor("#f30000ba");
-    } else {
-      setButtonColor("green");
-    }
-  } */
 
   const inputRef = useRef<TextInput>(null);
   useEffect(() => {
@@ -93,36 +79,29 @@ const Create = (props: any) => {
         <View>
           <TextInput
             placeholder="Titulo"
-            onChangeText={(value) => handleInputChangeText("titulo", value)}
-            value={book.titulo}
+            onChangeText={(value) => handleInputChangeText("title", value)}
+            value={book.title}
           />
         </View>
         <View>
           <TextInput
             placeholder="Autor"
-            onChangeText={(value) => handleInputChangeText("autor", value)}
-            value={book.autor}
+            onChangeText={(value) => handleInputChangeText("author", value)}
+            value={book.author}
           />
         </View>
         <View>
           <TextInput
             placeholder="Género"
-            onChangeText={(value) => handleInputChangeText("genero", value)}
-            value={book.genero}
+            onChangeText={(value) => handleInputChangeText("genre", value)}
+            value={book.genre}
           />
         </View>
         <View>
           <TextInput
             placeholder="Fecha de publicación"
-            onChangeText={(value) => handleInputChangeText("fecha", value)}
-            value={book.fecha}
-          />
-        </View>
-        <View>
-          <TextInput
-            placeholder="Código internacional"
-            onChangeText={(value) => handleInputChangeText("isbn", value)}
-            value={book.isbn}
+            onChangeText={(value) => handleInputChangeText("date", value)}
+            value={book.date}
           />
         </View>
       </ScrollView>
