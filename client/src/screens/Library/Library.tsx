@@ -1,44 +1,60 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ScrollView, View, Text, Pressable, FlatList } from "react-native";
+import {
+  ScrollView,
+  View,
+  Text,
+  Pressable,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { appFirebase } from "../../../credentials.mjs";
 import {
   getFirestore,
   collection,
   getDocs,
   DocumentData,
-  FirestoreError,
 } from "firebase/firestore";
-import { FirebaseError } from "firebase/app";
+import { Book } from "../../utils";
 
 const db = getFirestore(appFirebase);
 
 const Library = (props: {
   navigation: { navigate: (arg0: string) => void };
 }) => {
-  const [data, setData] = useState<DocumentData[]>([]);
+  const [data, setData] = useState<Book[]>([]);
   const [error, setError] = useState<null | unknown>(null);
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    (async () => {
-      try {
-        setLoading(true);
-        const response = await getDocs(collection(db, "library"));
-        if (response.size === 0) {
-          throw new Error(`404 - Not Found`);
+  useEffect(
+    () => {
+      (async () => {
+        try {
+          setLoading(true);
+          const response = await getDocs(collection(db, "library"));
+          if (response.size === 0) {
+            throw new Error(`404 - Not Found`);
+          }
+          console.log(response.size);
+          const books = response.docs.map((doc) => {
+            return {
+              id: doc.id,
+              doc: doc.data(),
+            };
+          });
+          setData(books);
+        } catch (error) {
+          if (error instanceof Error) {
+            console.error(`There is no document in the API: ${error.message}.`);
+            setError(error.message);
+          }
+        } finally {
+          setLoading(false);
         }
-        console.log(response.size);
-        const books = response.docs.map((doc) => doc.data());
-        setData(books);
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error(`There is no document in the API: ${error.message}.`);
-          setError(error.message);
-        }
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, [db]);
+      })();
+    },
+    [
+      /* db */
+    ]
+  );
 
   return (
     <>
@@ -52,16 +68,19 @@ const Library = (props: {
         </View>
         <FlatList
           data={data}
-          keyExtractor={(index) => String(index)} // (property) keyExtractor?: ((item: DocumentData, index: number) => string) | undefined
+          keyExtractor={(item, index) => `${index}:${item.id}`} // (property) keyExtractor?: ((item: DocumentData, index: number) => string) | undefined
           renderItem={({ item, index }) =>
             item && (
-              <View>
-                <Text>id: {index}</Text>
-                <Text>title: {item.title}</Text>
-                <Text>author: {item.author}</Text>
-                <Text>genre: {item.genre}</Text>
-                <Text>date: {item.date}</Text>
-              </View>
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate("Show")}
+              >
+                <Text>INDEX: {index}</Text>
+                <Text>TITLE: {item.doc.title}</Text>
+                <Text>DATE: {item.doc.date}</Text>
+                <Text>GENRE: {item.doc.genre}</Text>
+                <Text>AUTHOR: {item.doc.author}</Text>
+                <Text>UID: {item.id}</Text>
+              </TouchableOpacity>
             )
           }
         />
