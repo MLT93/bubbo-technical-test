@@ -8,16 +8,14 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import { appFirebase } from "../../../credentials.mjs";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-} from "firebase/firestore";
+import { appFirebase } from "../../../credentials.js";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 const db = getFirestore(appFirebase);
 
-const Create = (props: any) => {
+const Create = (props: {
+  navigation: { navigate: (arg0: string) => void };
+}) => {
   const [book, setBook] = useState({
     title: "",
     author: "",

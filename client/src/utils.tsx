@@ -6,4 +6,9 @@ interface Book {
   doc: DocumentData;
 }
 
-export type { Book };
+// INTERFACE FOR LIKES
+interface Likes {
+  baseLike?: number;
+}
+
+export type { Book, Likes };

@@ -160,5 +160,5 @@
   },
   "include": ["./src/**/*.tsx"],
   "exclude": ["./src/**/*.test.tsx"],
-  "extends": "@tsconfig/react-native/tsconfig.json",
+  "extends": "@tsconfig/react-native",
 }
