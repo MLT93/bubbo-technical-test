@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { styles } from "../../../styles/styles";
 
 const Hello = () => {
   const navigation = useNavigation();
@@ -22,65 +23,35 @@ const Hello = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.greeting}>Welcome to Bubbo's library</Text>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={onIncrement}>
-          <Text>Yeah! Thumb up!</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={onDecrement}>
-          <Text>I don't like</Text>
-        </TouchableOpacity>
+    <View style={styles.containerCenter}>
+      <Text style={styles.titleText}>Welcome to Bubbo's library</Text>
+      <View style={styles.containerCenter}>
+        <View style={styles.containerCenterRow}>
+          <TouchableOpacity style={styles.button} onPress={onIncrement}>
+            <Text style={styles.buttonText}>Yeah! Thumb up!</Text>
+          </TouchableOpacity>
+          <View style={styles.containerCenter}>
+            <Text style={styles.normalText}>👍</Text>
+            <Text style={styles.normalText}>{like}</Text>
+          </View>
+        </View>
+        <View style={styles.containerCenterRow}>
+          <TouchableOpacity style={styles.button} onPress={onDecrement}>
+            <Text style={styles.buttonText}>I don't like</Text>
+          </TouchableOpacity>
+          <View style={styles.containerCenter}>
+            <Text style={styles.normalText}>👎</Text>
+            <Text style={styles.normalText}>{unlike}</Text>
+          </View>
+        </View>
       </View>
-      <View style={styles.counterContainer}>
-        <Text style={styles.counterText}>👍 {like}</Text>
-        <Text style={styles.counterText}>👎 {unlike}</Text>
-      </View>
-
-      <View>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("Crud" as never)}
-        >
-          <Text>Going on! {showThumbUp}</Text>
+      <View style={styles.buttonStretch}>
+        <TouchableOpacity onPress={() => navigation.navigate("Crud" as never)}>
+          <Text style={styles.buttonText}>Going on! {showThumbUp}</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  greeting: {
-    fontSize: 20,
-    fontWeight: "bold",
-    margin: 16,
-  },
-  counterContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginVertical: 10,
-    gap: 10,
-  },
-  buttonContainer: {
-    gap: 10,
-    textAlign: "center",
-  },
-  button: {
-    borderRadius: 10,
-    backgroundColor: "lightskyblue",
-    padding: 20,
-    fontWeight: "700",
-    borderWidth: 2,
-    borderColor: "blue",
-  },
-  counterText: {
-    fontSize: 16,
-  },
-});
 
 export { Hello };

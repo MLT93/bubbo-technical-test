@@ -7,7 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Create } from "../screens/Create/Create";
 import { Library } from "../screens/Library/Library";
 import { Hello } from "../screens/Hello/Hello";
-import { Read } from "../screens/Read/Read";
+import { Detalles } from "../screens/Detalles/Detalles";
 
 const Navigation = () => {
   const Tab = createBottomTabNavigator();
@@ -21,7 +21,7 @@ const Navigation = () => {
       >
         <Stack.Screen name="Library" component={Library} />
         <Stack.Screen name="Create" component={Create} />
-        <Stack.Screen name="Read" component={Read} />
+        <Stack.Screen name="Details" component={Detalles} />
       </Stack.Navigator>
     );
   };
