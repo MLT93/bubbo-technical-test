@@ -6,12 +6,13 @@ import {
   Pressable,
   Alert,
   TouchableOpacity,
-  Platform,
+  Modal,
 } from "react-native";
 import { appFirebase } from "../../../credentials.js";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { styles } from "../../../styles/styles";
-import DatePicker from "react-datepicker";
+import DatePicker from "react-native-modern-datepicker";
+import { getFormatedDate } from "react-native-modern-datepicker";
 
 const db = getFirestore(appFirebase);
 
@@ -27,25 +28,31 @@ const Create = (props: {
   });
   const handleInputOnChangeText = (name: string, value: string) =>
     setBook({ ...book, [name]: value });
-  // Actualización del input date
-  const [startDate, setStartDate] = useState(new Date());
-  const handleInputOnChangeDate = (date: string, dateValue: string) =>
-    setBook({ ...book, [date]: dateValue });
   // Toggle
   const [visible, setVisible] = useState(false);
-  const handleToggle = () => {
-    setVisible(!visible);
+  const handleToggle = () => setVisible(!visible);
+  // Captura del input fecha, creación de placeholder y actualización del mismo
+  const handleInputOnChangeDate = (date: string, dateValue: string) => {
+    setBook({ ...book, [date]: dateValue });
   };
-  // Deshabilitar el botón de guardado si no están todos los campos llenos y sin espacios de más
+  const initialDate = getFormatedDate(new Date(), "YYYY/MM/DD");
+  const [placeholderDate, setPlaceholderDate] = useState(
+    "Fecha de publicación"
+  );
+  const handleChangeInitialDate = (propDate: React.SetStateAction<string>) => {
+    setPlaceholderDate(propDate);
+  };
+  // Deshabilitar el botón de envío si no están todos los campos llenos y sin espacios de más
   const [isDisabled, setIsDisabled] = useState(true);
   useEffect(() => {
-    book.title.trim() !== "" &&
-    book.author.trim() !== "" &&
-    book.genre.trim() !== "" &&
-    book.date.trim() !== ""
-      ? setIsDisabled(false)
-      : setIsDisabled(true);
-  }, [book, setIsDisabled]);
+    const areFieldsFilled =
+      book.title.trim() !== "" &&
+      book.author.trim() !== "" &&
+      book.genre.trim() !== "" &&
+      book.date.trim() !== "";
+
+    setIsDisabled(!areFieldsFilled);
+  }, [book]);
   // Llamada a la API
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -98,6 +105,7 @@ const Create = (props: {
         <View>
           <TextInput
             placeholder="Titulo"
+            ref={inputRef}
             onChangeText={(value) =>
               handleInputOnChangeText("title", value.toLocaleUpperCase())
             }
@@ -116,16 +124,36 @@ const Create = (props: {
             value={book.genre}
           />
 
-          {/* <TextInput
-          placeholder="Fecha de publicación"
-          onChange={(value) => handleInputOnChangeDate("date", value)}
-          value={book.date}
-        /> */}
-          <DatePicker
-            isClearable
-            selected={startDate}
-            onChange={(value: any) => handleInputOnChangeDate("date", value)}
-          />
+          <TouchableOpacity onPress={handleToggle}>
+            <Text>{placeholderDate}</Text>
+          </TouchableOpacity>
+          <Modal animationType="fade" transparent={true} visible={visible}>
+            <View style={styles.containerCenter}>
+              <View style={styles.containerModal}>
+                <DatePicker
+                  mode="calendar"
+                  maximumDate={initialDate}
+                  selected={book.date}
+                  onDateChange={handleChangeInitialDate}
+                  onSelectedChange={(dateValue) =>
+                    handleInputOnChangeDate("date", dateValue)
+                  }
+                  options={{
+                    backgroundColor: "#080516",
+                    textHeaderColor: "#469ab6",
+                    textDefaultColor: "white",
+                    selectedTextColor: "white",
+                    mainColor: "#469ab6",
+                    textSecondaryColor: "white",
+                    borderColor: "#7a92a51a",
+                  }}
+                />
+                <TouchableOpacity style={styles.button} onPress={handleToggle}>
+                  <Text style={styles.buttonText}>Cerrar</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
         </View>
         <View>
           <Pressable

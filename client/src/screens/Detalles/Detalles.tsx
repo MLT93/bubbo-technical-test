@@ -22,11 +22,11 @@ const Detalles = ({ route }: { route: any }) => {
   useEffect(() => {
     (async () => {
       try {
-        const docSnap = await getDoc(docRef);
-        if (!docSnap.exists()) {
+        const docById = await getDoc(docRef);
+        if (!docById.exists()) {
           throw new Error(`No such document!`);
         } else {
-          const bookDetails = docSnap.data();
+          const bookDetails = docById.data();
           setBookDataById(bookDetails);
         }
       } catch (error) {
@@ -39,7 +39,9 @@ const Detalles = ({ route }: { route: any }) => {
   }, [route.params.itemId]);
   const remove = async () => {
     try {
-      await route.params.itemId.deleteDoc();
+      await deleteDoc(docRef);
+      console.log("Document deleted ID:", route.params.itemId);
+      navigation.goBack();
     } catch (error) {
       console.error("Can not remove the document:", error);
     }
@@ -63,7 +65,7 @@ const Detalles = ({ route }: { route: any }) => {
           <Text>Genre: {bookDataById.genre}</Text>
         </View>
       )}
-      <Pressable style={{backgroundColor: "red"}} onPress={() => remove()}>
+      <Pressable style={{ backgroundColor: "red" }} onPress={() => remove()}>
         <Text>Delete</Text>
       </Pressable>
       <Pressable onPress={() => navigation.goBack()}>

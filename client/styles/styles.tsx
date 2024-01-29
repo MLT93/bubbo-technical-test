@@ -20,6 +20,29 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     gap: 30,
   },
+  containerModal: {
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 20,
+    backgroundColor: "#080516",
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 3
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 5,
+    /* boxShadow: "0 2px 4px 0 #000000", */
+    borderRadius: 20,
+    padding: 17,
+    width: "90%"
+  },
+  modal: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   button: {
     width: 137,
     textAlign: "center",
