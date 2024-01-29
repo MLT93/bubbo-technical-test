@@ -7,3 +7,13 @@ Express, integrate Firebase Firestore as a data base, and roll out a mobile appl
 using React Native to consume and display the data from the API.
 
 Carry out technical test for the Bubbo company
+
+Using:
+`expo ^49.0.22`
+`node.js 20`
+`firebase 10.7.1`
+`firebase/firestore ^4.4.1`
+`webpack-bundle-analyzer ^4.10.1`
+`webpack-cli ^5.1.4`
+`webpack-dev-server ^4.15.1`
+`webpack-merge ^5.10.0`

@@ -2,8 +2,10 @@
     "cSpell.words": [
         "bubbo",
         "firestore",
+        "Formated",
         "isbn",
         "postgres",
         "Pressable"
-    ]
+    ],
+    "versionlens.suggestions.showOnStartup": false
 }
