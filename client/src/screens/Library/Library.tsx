@@ -31,7 +31,8 @@ const Library = ({ navigation }: { navigation: any }) => {
         } catch (error) {
           if (error instanceof Error) {
             console.error(
-              `There isn't any document in the API: ${error.message}.`
+              "There isn't any document in the API:",
+              error.message
             );
             setError(error.message);
           }

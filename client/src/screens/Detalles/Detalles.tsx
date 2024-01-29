@@ -18,7 +18,7 @@ const Detalles = ({ route }: { route: any }) => {
 
   const docRef = doc(db, "library", route.params.itemId);
   const [bookDataById, setBookDataById] = useState<DocumentData | null>();
-  const [error, setError] = useState<null | unknown>(null);
+  const [error, setError] = useState(null);
   useEffect(() => {
     (async () => {
       try {
@@ -29,11 +29,11 @@ const Detalles = ({ route }: { route: any }) => {
           const bookDetails = docById.data();
           setBookDataById(bookDetails);
         }
-      } catch (error) {
+      } catch (error: any) {
         if (error instanceof Error) {
-          console.error("Error getting document:", error);
-          setError(error);
+          console.error("Error getting document:", error.message);
         }
+        setError(error.message);
       }
     })();
   }, [route.params.itemId]);
@@ -49,28 +49,28 @@ const Detalles = ({ route }: { route: any }) => {
 
   return (
     <>
-      <View>
-        <Text>DETALLES</Text>
+      <View style={styles.containerCenter}>
+        <Text style={styles.titleText}>DETALLES</Text>
+        {error && (
+          <View style={styles.containerCenter}>
+            <Text style={styles.subtitleText}>{`${error}`}</Text>
+          </View>
+        )}
+        {bookDataById && (
+          <View>
+            <Text>Title: {bookDataById.title}</Text>
+            <Text>Date: {bookDataById.date}</Text>
+            <Text>Author: {bookDataById.author}</Text>
+            <Text>Genre: {bookDataById.genre}</Text>
+          </View>
+        )}
+        <Pressable style={{ backgroundColor: "red" }} onPress={() => remove()}>
+          <Text>Delete</Text>
+        </Pressable>
+        <Pressable onPress={() => navigation.goBack()}>
+          <Text>Go back</Text>
+        </Pressable>
       </View>
-      {error && (
-        <View>
-          <Text>{`${error}`}</Text>
-        </View>
-      )}
-      {bookDataById && (
-        <View>
-          <Text>Title: {bookDataById.title}</Text>
-          <Text>Date: {bookDataById.date}</Text>
-          <Text>Author: {bookDataById.author}</Text>
-          <Text>Genre: {bookDataById.genre}</Text>
-        </View>
-      )}
-      <Pressable style={{ backgroundColor: "red" }} onPress={() => remove()}>
-        <Text>Delete</Text>
-      </Pressable>
-      <Pressable onPress={() => navigation.goBack()}>
-        <Text>Go back</Text>
-      </Pressable>
     </>
   );
 };

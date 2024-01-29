@@ -68,17 +68,17 @@ const Create = (props: {
       console.log("Document written with ID:", docAdded.id);
       Alert.alert("Your book has been saved!");
       props.navigation.navigate("Library");
-    } catch (err: any) {
-      if (err instanceof Error) {
-        console.error(err.message);
+    } catch (error: any) {
+      if (error instanceof Error) {
+        console.error(error.message);
       }
-      if (err instanceof SyntaxError) {
-        console.error(err.message);
+      if (error instanceof SyntaxError) {
+        console.error(error.message);
       }
-      if (err instanceof TypeError) {
-        console.error(err.message);
+      if (error instanceof TypeError) {
+        console.error(error.message);
       }
-      setError(err);
+      setError(error);
     } finally {
       setLoading(false);
     }
@@ -96,10 +96,14 @@ const Create = (props: {
     <>
       <View style={styles.containerCenter}>
         <Text style={styles.titleText}>AÑADE INFORMACIÓN</Text>
-        {loading && <Text>Is Loading...</Text>}
+        {loading && (
+          <View style={styles.containerCenter}>
+            <Text style={styles.subtitleText}>Is Loading...</Text>
+          </View>
+        )}
         {error && (
-          <View>
-            <Text>{`${error}`}</Text>
+          <View style={styles.containerCenter}>
+            <Text style={styles.subtitleText}>{`${error}`}</Text>
           </View>
         )}
         <View>
