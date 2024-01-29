@@ -137,6 +137,9 @@ const Create = (props: {
                 <DatePicker
                   mode="calendar"
                   maximumDate={initialDate}
+                  /**
+                   * ToDo: Revisar el selected acá abajo, seguramente es esto que me está causando problemas con el bucle infinito
+                   */
                   selected={book.date}
                   onDateChange={handleChangeInitialDate}
                   onSelectedChange={(dateValue) =>
