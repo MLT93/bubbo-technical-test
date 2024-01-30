@@ -67,8 +67,8 @@ const Detalles = ({ route }: { route: any }) => {
         <Pressable style={{ backgroundColor: "red" }} onPress={() => remove()}>
           <Text>Delete</Text>
         </Pressable>
-        <Pressable onPress={() => navigation.goBack()}>
-          <Text>Go back</Text>
+        <Pressable style={styles.button} onPress={() => navigation.goBack()}>
+          <Text style={styles.buttonText}>Volver</Text>
         </Pressable>
       </View>
     </>

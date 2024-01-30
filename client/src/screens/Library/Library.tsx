@@ -4,11 +4,23 @@ import { appFirebase } from "../../../credentials.js";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { Book } from "../../../utils/utils.js";
 import { styles } from "../../../styles/styles";
+import { useNavigation } from "@react-navigation/native";
 
 const db = getFirestore(appFirebase);
 
-const Library = ({ navigation }: { navigation: any }) => {
-  const [data, setData] = useState<Book[]>([]);
+const Library = (props: {
+  navigation: {
+    navigate: (
+      arg0: string,
+      {
+        arg1: {},
+      }?: Object
+    ) => void;
+  };
+}) => {
+  const navigation = useNavigation();
+
+  const [data, setData] = useState<Book[] | any>([]);
   const [error, setError] = useState<null | string>(null);
   const [loading, setLoading] = useState(true);
   useEffect(
@@ -67,7 +79,10 @@ const Library = ({ navigation }: { navigation: any }) => {
             item && (
               <Pressable
                 onPress={() =>
-                  navigation.navigate("Details", { itemId: item.id })
+                  /* props.navigation.navigate("Details", { itemId: item.id }) */
+                  props.navigation.navigate("Details", {
+                    itemId: item.id,
+                  })
                 }
               >
                 <Text>
@@ -79,9 +94,12 @@ const Library = ({ navigation }: { navigation: any }) => {
         />
         <Pressable
           style={styles.button}
-          onPress={() => navigation.navigate("Create")}
+          onPress={() => props.navigation.navigate("Create")}
         >
           <Text style={styles.buttonText}>Añade un libro</Text>
+        </Pressable>
+        <Pressable style={styles.button} onPress={() => navigation.goBack()}>
+          <Text style={styles.buttonText}>Volver</Text>
         </Pressable>
       </View>
     </>

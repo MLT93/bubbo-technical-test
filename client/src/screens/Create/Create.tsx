@@ -32,15 +32,13 @@ const Create = (props: {
   const [visible, setVisible] = useState(false);
   const handleToggle = () => setVisible(!visible);
   // Captura del input fecha, creación de placeholder y actualización del mismo
-  const handleInputOnChangeDate = (date: string, dateValue: string) => {
-    setBook({ ...book, [date]: dateValue });
-  };
   const initialDate = getFormatedDate(new Date(), "YYYY/MM/DD");
   const [placeholderDate, setPlaceholderDate] = useState(
     "Fecha de publicación"
   );
-  const handleChangeInitialDate = (propDate: React.SetStateAction<string>) => {
-    setPlaceholderDate(propDate);
+  const handleInputOnChangeDate = (date: string, value: string) => {
+    setBook({ ...book, [date]: value });
+    setPlaceholderDate(value);
   };
   // Deshabilitar el botón de envío si no están todos los campos llenos y sin espacios de más
   const [isDisabled, setIsDisabled] = useState(true);
@@ -52,7 +50,7 @@ const Create = (props: {
       book.date.trim() !== "";
 
     setIsDisabled(!areFieldsFilled);
-  }, [book]);
+  }, [book, setIsDisabled]);
   // Llamada a la API
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -86,6 +84,7 @@ const Create = (props: {
   // Reset de los campos escritos
   const handleResetForm = () => {
     setBook({ title: "", author: "", genre: "", date: "" });
+    setPlaceholderDate("Fecha de publicación");
   };
   // Focus sobre el primer input del formulario
   const inputRef = useRef<TextInput>(null);
@@ -137,14 +136,10 @@ const Create = (props: {
                 <DatePicker
                   mode="calendar"
                   maximumDate={initialDate}
-                  /**
-                   * ToDo: Revisar el selected acá abajo, seguramente es esto que me está causando problemas con el bucle infinito
-                   */
-                  selected={book.date}
-                  onDateChange={handleChangeInitialDate}
-                  onSelectedChange={(dateValue) =>
-                    handleInputOnChangeDate("date", dateValue)
+                  onDateChange={(value) =>
+                    handleInputOnChangeDate("date", value)
                   }
+                  selected={book.date}
                   options={{
                     backgroundColor: "#080516",
                     textHeaderColor: "#469ab6",
