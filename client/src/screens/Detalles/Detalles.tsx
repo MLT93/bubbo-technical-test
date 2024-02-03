@@ -8,6 +8,7 @@ import {
 } from "firebase/firestore";
 import { appFirebase } from "../../../credentials";
 import { View, Text, Pressable } from "react-native";
+import { Button, ButtonGroup, withTheme /* Text */ } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "../../../styles/styles";
 
@@ -67,9 +68,28 @@ const Detalles = ({ route }: { route: any }) => {
         <Pressable style={{ backgroundColor: "red" }} onPress={() => remove()}>
           <Text>Delete</Text>
         </Pressable>
-        <Pressable style={styles.button} onPress={() => navigation.goBack()}>
-          <Text style={styles.buttonText}>Volver</Text>
-        </Pressable>
+        <Button
+          title="HOME"
+          titleStyle={{ fontWeight: "700" }}
+          containerStyle={{
+            width: 200,
+          }}
+          buttonStyle={{
+            backgroundColor: "#5a9ae6",
+            borderColor: "transparent",
+            borderWidth: 0,
+            borderRadius: 30,
+            margin: 10,
+            shadowColor: "#000000",
+            shadowOpacity: 3,
+            shadowRadius: 4,
+            shadowOffset: {
+              width: 0,
+              height: 1.5,
+            },
+          }}
+          onPress={() => navigation.goBack()}
+        />
       </View>
     </>
   );

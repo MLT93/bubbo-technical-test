@@ -13,6 +13,7 @@ import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { styles } from "../../../styles/styles";
 import DatePicker from "react-native-modern-datepicker";
 import { getFormatedDate } from "react-native-modern-datepicker";
+import { Input } from "@rneui/themed";
 
 const db = getFirestore(appFirebase);
 
@@ -81,16 +82,19 @@ const Create = (props: {
       setLoading(false);
     }
   };
+  // Focus sobre el primer input del formulario
+  const inputRef = useRef<any>(null);
+  
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
   // Reset de los campos escritos
   const handleResetForm = () => {
     setBook({ title: "", author: "", genre: "", date: "" });
     setPlaceholderDate("Fecha de publicación");
-  };
-  // Focus sobre el primer input del formulario
-  const inputRef = useRef<TextInput>(null);
-  useEffect(() => {
     inputRef.current?.focus();
-  }, []);
+  };
+  
   return (
     <>
       <View style={styles.containerCenter}>
@@ -105,8 +109,8 @@ const Create = (props: {
             <Text style={styles.subtitleText}>{`${error}`}</Text>
           </View>
         )}
-        <View>
-          <TextInput
+        <View style={{}}>
+          <Input
             placeholder="Titulo"
             ref={inputRef}
             onChangeText={(value) =>
@@ -115,21 +119,29 @@ const Create = (props: {
             value={book.title}
           />
 
-          <TextInput
+          <Input
             placeholder="Autor"
             onChangeText={(value) => handleInputOnChangeText("author", value)}
             value={book.author}
           />
 
-          <TextInput
+          <Input
             placeholder="Género"
             onChangeText={(value) => handleInputOnChangeText("genre", value)}
             value={book.genre}
           />
 
-          <TouchableOpacity onPress={handleToggle}>
-            <Text>{placeholderDate}</Text>
+          <Input
+            placeholder="INPUT WITH ERROR MESSAGE"
+            errorStyle={{ color: "red" }}
+            errorMessage="ENTER A VALID ERROR HERE"
+            onChangeText={(value) => handleInputOnChangeText("genre", value)}
+          />
+
+          <TouchableOpacity style={styles.placeholderContainer} onPress={handleToggle}>
+            <Text style={styles.placeholderText}>{placeholderDate}</Text>
           </TouchableOpacity>
+
           <Modal animationType="fade" transparent={true} visible={visible}>
             <View style={styles.containerCenter}>
               <View style={styles.containerModal}>

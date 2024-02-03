@@ -5,6 +5,7 @@ import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { Book } from "../../../utils/utils.js";
 import { styles } from "../../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
+import { Button } from "@rneui/base";
 
 const db = getFirestore(appFirebase);
 
@@ -98,9 +99,28 @@ const Library = (props: {
         >
           <Text style={styles.buttonText}>Añade un libro</Text>
         </Pressable>
-        <Pressable style={styles.button} onPress={() => navigation.goBack()}>
-          <Text style={styles.buttonText}>Volver</Text>
-        </Pressable>
+        <Button
+          title="HOME"
+          titleStyle={{ fontWeight: "700" }}
+          containerStyle={{
+            width: 200,
+          }}
+          buttonStyle={{
+            backgroundColor: "#5a9ae6",
+            borderColor: "transparent",
+            borderWidth: 0,
+            borderRadius: 30,
+            margin: 10,
+            shadowColor: "#000000",
+            shadowOpacity: 3,
+            shadowRadius: 4,
+            shadowOffset: {
+              width: 0,
+              height: 1.5,
+            },
+          }}
+          onPress={() => navigation.goBack()}
+        />
       </View>
     </>
   );

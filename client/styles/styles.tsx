@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000000",
     shadowOffset: {
       width: 0,
-      height: 3
+      height: 3,
     },
     shadowOpacity: 0.3,
     shadowRadius: 3,
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     /* boxShadow: "0 2px 4px 0 #000000", */
     borderRadius: 20,
     padding: 17,
-    width: "90%"
+    width: "90%",
   },
   modal: {
     flex: 1,
@@ -75,6 +75,25 @@ const styles = StyleSheet.create({
   normalText: {
     fontSize: 17,
     fontWeight: "normal",
+  },
+  placeholderContainer: {
+    appearance: "none",
+    margin: 0,
+    alignItems: "stretch",
+    border: "0px solid black",
+    flexBasis: "auto",
+    flexShrink: 0,
+    boxSizing: "border-box",
+    borderBottomWidth: 1,
+    resize: "none",
+  },
+  placeholderText: {
+    fontStyle: "14px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+    color: "#86939e",
+    /* color: "rgb(36, 36, 36)", */
+    fontSize: 18,
+    flex: 1,
+    minHeight: 40,
   },
 });
 
