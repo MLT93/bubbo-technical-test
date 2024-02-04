@@ -1,19 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  Alert,
-  TouchableOpacity,
-  Modal,
-} from "react-native";
+import { View, Text, Alert, TouchableOpacity, Modal } from "react-native";
 import { appFirebase } from "../../../credentials.js";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { styles } from "../../../styles/styles";
 import DatePicker from "react-native-modern-datepicker";
 import { getFormatedDate } from "react-native-modern-datepicker";
 import { Input } from "@rneui/themed";
+import { Button } from "@rneui/base";
 
 const db = getFirestore(appFirebase);
 
@@ -74,9 +67,6 @@ const Create = (props: {
       if (error instanceof SyntaxError) {
         console.error(error.message);
       }
-      if (error instanceof TypeError) {
-        console.error(error.message);
-      }
       setError(error);
     } finally {
       setLoading(false);
@@ -84,7 +74,7 @@ const Create = (props: {
   };
   // Focus sobre el primer input del formulario
   const inputRef = useRef<any>(null);
-  
+
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
@@ -94,10 +84,20 @@ const Create = (props: {
     setPlaceholderDate("Fecha de publicación");
     inputRef.current?.focus();
   };
-  
+  // Errores
+  const err = new Error(`Max 30 caracteres`);
+  const [authorError, setAuthorError] = useState<any>();
+  useEffect(() => {
+    if (book.author.length >= 3) {
+      console.error(err);
+      setAuthorError(`${err.message}`);
+      authorError === true ? `${err}` : null;
+    }
+  }, [book.author]);
+
   return (
     <>
-      <View style={styles.containerCenter}>
+      <View style={styles.containerBetween}>
         <Text style={styles.titleText}>AÑADE INFORMACIÓN</Text>
         {loading && (
           <View style={styles.containerCenter}>
@@ -112,6 +112,8 @@ const Create = (props: {
         <View style={{}}>
           <Input
             placeholder="Titulo"
+            errorStyle={{ color: "red" }}
+            errorMessage={"Create an error"}
             ref={inputRef}
             onChangeText={(value) =>
               handleInputOnChangeText("title", value.toLocaleUpperCase())
@@ -121,27 +123,30 @@ const Create = (props: {
 
           <Input
             placeholder="Autor"
+            errorStyle={{ color: "red" }}
+            errorMessage={authorError}
             onChangeText={(value) => handleInputOnChangeText("author", value)}
             value={book.author}
           />
 
           <Input
             placeholder="Género"
+            errorStyle={{ color: "red" }}
+            /**
+             * ToDo: crear un error para la correcta visualización de los caracteres
+             */
+            errorMessage={"Create an error"}
             onChangeText={(value) => handleInputOnChangeText("genre", value)}
             value={book.genre}
           />
 
-          <Input
-            placeholder="INPUT WITH ERROR MESSAGE"
-            errorStyle={{ color: "red" }}
-            errorMessage="ENTER A VALID ERROR HERE"
-            onChangeText={(value) => handleInputOnChangeText("genre", value)}
-          />
-
-          <TouchableOpacity style={styles.placeholderContainer} onPress={handleToggle}>
-            <Text style={styles.placeholderText}>{placeholderDate}</Text>
-          </TouchableOpacity>
-
+          <View style={styles.placeholderContainer}>
+            <TouchableOpacity onPress={handleToggle}>
+              <Text style={styles.placeholderText}>{placeholderDate}</Text>
+            </TouchableOpacity>
+            <View style={styles.placeholderBottom}></View>
+            <Text style={styles.placeholderBottomText}></Text>
+          </View>
           <Modal animationType="fade" transparent={true} visible={visible}>
             <View style={styles.containerCenter}>
               <View style={styles.containerModal}>
@@ -162,30 +167,102 @@ const Create = (props: {
                     borderColor: "#7a92a51a",
                   }}
                 />
-                <TouchableOpacity style={styles.button} onPress={handleToggle}>
-                  <Text style={styles.buttonText}>Cerrar</Text>
-                </TouchableOpacity>
+                <Button
+                  title="CERRAR"
+                  titleStyle={{ fontWeight: "700" }}
+                  containerStyle={{
+                    width: 200,
+                  }}
+                  buttonStyle={{
+                    backgroundColor: "#5a9ae6",
+                    borderColor: "transparent",
+                    borderWidth: 0,
+                    borderRadius: 30,
+                    margin: 10,
+                    shadowColor: "#86939e",
+                    shadowOpacity: 3,
+                    shadowRadius: 4,
+                    shadowOffset: {
+                      width: 0,
+                      height: 1.5,
+                    },
+                  }}
+                  onPress={handleToggle}
+                />
               </View>
             </View>
           </Modal>
         </View>
-        <View>
-          <Pressable
-            style={styles.button}
-            onPress={handleSubmitSavedBook}
-            disabled={isDisabled}
-          >
-            <Text style={styles.buttonText}>Guardar</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={handleResetForm}>
-            <Text style={styles.buttonText}>Restablecer</Text>
-          </Pressable>
-          <Pressable
-            style={styles.button}
+        <View style={styles.containerCenterEnd}>
+          <View style={styles.containerCenterRow}>
+            <Button
+              title="GUARDAR"
+              disabled={isDisabled}
+              titleStyle={{ fontWeight: "700" }}
+              containerStyle={{
+                width: 200,
+              }}
+              buttonStyle={{
+                backgroundColor: "#007900",
+                borderColor: "transparent",
+                borderWidth: 0,
+                borderRadius: 30,
+                margin: 10,
+                shadowColor: "#000000",
+                shadowOpacity: 3,
+                shadowRadius: 4,
+                shadowOffset: {
+                  width: 0,
+                  height: 1.5,
+                },
+              }}
+              onPress={handleSubmitSavedBook}
+            />
+            <Button
+              title="RESTABLECER"
+              titleStyle={{ fontWeight: "700" }}
+              containerStyle={{
+                width: 200,
+              }}
+              buttonStyle={{
+                backgroundColor: "#5a9ae6",
+                borderColor: "transparent",
+                borderWidth: 0,
+                borderRadius: 30,
+                margin: 10,
+                shadowColor: "#000000",
+                shadowOpacity: 3,
+                shadowRadius: 4,
+                shadowOffset: {
+                  width: 0,
+                  height: 1.5,
+                },
+              }}
+              onPress={handleResetForm}
+            />
+          </View>
+          <Button
+            title="VOLVER"
+            titleStyle={{ fontWeight: "700" }}
+            containerStyle={{
+              width: 200,
+            }}
+            buttonStyle={{
+              backgroundColor: "#5a9ae6",
+              borderColor: "transparent",
+              borderWidth: 0,
+              borderRadius: 30,
+              margin: 10,
+              shadowColor: "#000000",
+              shadowOpacity: 3,
+              shadowRadius: 4,
+              shadowOffset: {
+                width: 0,
+                height: 1.5,
+              },
+            }}
             onPress={() => props.navigation.navigate("Library")}
-          >
-            <Text style={styles.buttonText}>Volver</Text>
-          </Pressable>
+          />
         </View>
       </View>
     </>

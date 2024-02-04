@@ -46,7 +46,7 @@ const Hello = () => {
         </View>
       </View>
       <View style={styles.buttonStretch}>
-        <TouchableOpacity onPress={() => navigation.navigate("Crud" as never)}>
+        <TouchableOpacity onPress={() => navigation.navigate("CRUD" as never)}>
           <Text style={styles.buttonText}>Going on! {showThumbUp}</Text>
         </TouchableOpacity>
       </View>

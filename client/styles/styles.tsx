@@ -3,22 +3,23 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   containerBetween: {
     flex: 1,
-    alignItems: "stretch",
+    alignItems: "center",
     justifyContent: "space-between",
   },
   containerCenter: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    textAlign: "center",
-    gap: 10,
   },
   containerCenterRow: {
     flexDirection: "row",
     alignItems: "center",
-    textAlign: "center",
-    justifyContent: "space-between",
-    gap: 30,
+    justifyContent: "center",
+    gap: 10,
+  },
+  containerCenterEnd: {
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
   containerModal: {
     justifyContent: "center",
@@ -33,7 +34,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 3,
     elevation: 5,
-    /* boxShadow: "0 2px 4px 0 #000000", */
     borderRadius: 20,
     padding: 17,
     width: "90%",
@@ -84,16 +84,28 @@ const styles = StyleSheet.create({
     flexBasis: "auto",
     flexShrink: 0,
     boxSizing: "border-box",
-    borderBottomWidth: 1,
     resize: "none",
+    paddingLeft: 10,
+    paddingRight: 10,
+    justifyContent: "center",
   },
   placeholderText: {
-    fontStyle: "14px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+    display: "flex",
+    alignItems: "center",
+    width: "100%",
+    fontFamily:
+      "'Roboto', 'Helvetica', 'Arial', sans-serif, 'Segoe UI', BlinkMacSystemFont",
     color: "#86939e",
-    /* color: "rgb(36, 36, 36)", */
     fontSize: 18,
     flex: 1,
     minHeight: 40,
+  },
+  placeholderBottom: {
+    borderTopWidth: 1,
+    borderColor: "#86939e",
+  },
+  placeholderBottomText: {
+    margin: 5,
   },
 });
 

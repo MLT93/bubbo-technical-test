@@ -50,7 +50,7 @@ const Detalles = ({ route }: { route: any }) => {
 
   return (
     <>
-      <View style={styles.containerCenter}>
+      <View style={styles.containerBetween}>
         <Text style={styles.titleText}>DETALLES</Text>
         {error && (
           <View style={styles.containerCenter}>
@@ -58,38 +58,83 @@ const Detalles = ({ route }: { route: any }) => {
           </View>
         )}
         {bookDataById && (
-          <View>
+          <View style={styles.containerCenter}>
             <Text>Title: {bookDataById.title}</Text>
             <Text>Date: {bookDataById.date}</Text>
             <Text>Author: {bookDataById.author}</Text>
             <Text>Genre: {bookDataById.genre}</Text>
           </View>
         )}
-        <Pressable style={{ backgroundColor: "red" }} onPress={() => remove()}>
-          <Text>Delete</Text>
-        </Pressable>
-        <Button
-          title="HOME"
-          titleStyle={{ fontWeight: "700" }}
-          containerStyle={{
-            width: 200,
-          }}
-          buttonStyle={{
-            backgroundColor: "#5a9ae6",
-            borderColor: "transparent",
-            borderWidth: 0,
-            borderRadius: 30,
-            margin: 10,
-            shadowColor: "#000000",
-            shadowOpacity: 3,
-            shadowRadius: 4,
-            shadowOffset: {
-              width: 0,
-              height: 1.5,
-            },
-          }}
-          onPress={() => navigation.goBack()}
-        />
+        <View style={styles.containerCenterEnd}>
+          <View style={styles.containerCenterRow}>
+            <Button
+              title="MODIFICAR"
+              titleStyle={{ fontWeight: "700" }}
+              containerStyle={{
+                width: 200,
+              }}
+              buttonStyle={{
+                backgroundColor: "#5f009e",
+                borderColor: "transparent",
+                borderWidth: 0,
+                borderRadius: 30,
+                margin: 10,
+                shadowColor: "#000000",
+                shadowOpacity: 3,
+                shadowRadius: 4,
+                shadowOffset: {
+                  width: 0,
+                  height: 1.5,
+                },
+              }}
+              onPress={() => remove()}
+            />
+            <Button
+              title="BORRAR"
+              titleStyle={{ fontWeight: "700" }}
+              containerStyle={{
+                width: 200,
+              }}
+              buttonStyle={{
+                backgroundColor: "#bb1717",
+                borderColor: "transparent",
+                borderWidth: 0,
+                borderRadius: 30,
+                margin: 10,
+                shadowColor: "#000000",
+                shadowOpacity: 3,
+                shadowRadius: 4,
+                shadowOffset: {
+                  width: 0,
+                  height: 1.5,
+                },
+              }}
+              onPress={() => remove()}
+            />
+          </View>
+          <Button
+            title="VOLVER"
+            titleStyle={{ fontWeight: "700" }}
+            containerStyle={{
+              width: 200,
+            }}
+            buttonStyle={{
+              backgroundColor: "#5a9ae6",
+              borderColor: "transparent",
+              borderWidth: 0,
+              borderRadius: 30,
+              margin: 10,
+              shadowColor: "#000000",
+              shadowOpacity: 3,
+              shadowRadius: 4,
+              shadowOffset: {
+                width: 0,
+                height: 1.5,
+              },
+            }}
+            onPress={() => navigation.goBack()}
+          />
+        </View>
       </View>
     </>
   );

@@ -61,7 +61,7 @@ const Library = (props: {
 
   return (
     <>
-      <View style={styles.containerCenter}>
+      <View style={styles.containerBetween}>
         <Text style={styles.titleText}>LISTA DE LIBROS</Text>
         {loading && (
           <View style={styles.containerCenter}>
@@ -93,34 +93,52 @@ const Library = (props: {
             )
           }
         />
-        <Pressable
-          style={styles.button}
-          onPress={() => props.navigation.navigate("Create")}
-        >
-          <Text style={styles.buttonText}>Añade un libro</Text>
-        </Pressable>
-        <Button
-          title="HOME"
-          titleStyle={{ fontWeight: "700" }}
-          containerStyle={{
-            width: 200,
-          }}
-          buttonStyle={{
-            backgroundColor: "#5a9ae6",
-            borderColor: "transparent",
-            borderWidth: 0,
-            borderRadius: 30,
-            margin: 10,
-            shadowColor: "#000000",
-            shadowOpacity: 3,
-            shadowRadius: 4,
-            shadowOffset: {
-              width: 0,
-              height: 1.5,
-            },
-          }}
-          onPress={() => navigation.goBack()}
-        />
+        <View>
+          <Button
+            title="AÑADE UN LIBRO"
+            titleStyle={{ fontWeight: "700" }}
+            containerStyle={{
+              width: 200,
+            }}
+            buttonStyle={{
+              backgroundColor: "#5a9ae6",
+              borderColor: "transparent",
+              borderWidth: 0,
+              borderRadius: 30,
+              margin: 10,
+              shadowColor: "#000000",
+              shadowOpacity: 3,
+              shadowRadius: 4,
+              shadowOffset: {
+                width: 0,
+                height: 1.5,
+              },
+            }}
+            onPress={() => props.navigation.navigate("Create")}
+          />
+          <Button
+            title="HOME"
+            titleStyle={{ fontWeight: "700" }}
+            containerStyle={{
+              width: 200,
+            }}
+            buttonStyle={{
+              backgroundColor: "#5a9ae6",
+              borderColor: "transparent",
+              borderWidth: 0,
+              borderRadius: 30,
+              margin: 10,
+              shadowColor: "#000000",
+              shadowOpacity: 3,
+              shadowRadius: 4,
+              shadowOffset: {
+                width: 0,
+                height: 1.5,
+              },
+            }}
+            onPress={() => navigation.goBack()}
+          />
+        </View>
       </View>
     </>
   );

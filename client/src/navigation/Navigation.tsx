@@ -28,9 +28,9 @@ const Navigation = () => {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName="Home">
-        <Tab.Screen name="Home" component={Hello} options={{}} />
-        <Tab.Screen name="Crud" component={MyCrudStack} options={{}} />
+      <Tab.Navigator initialRouteName="HOME">
+        <Tab.Screen name="HOME" component={Hello} options={{}} />
+        <Tab.Screen name="CRUD" component={MyCrudStack} options={{}} />
       </Tab.Navigator>
     </NavigationContainer>
   );
