@@ -45,7 +45,7 @@ const Create = (props: {
 
     setIsDisabled(!areFieldsFilled);
   }, [book, setIsDisabled]);
-  // Llamada a la API
+  // Llamada a la API Firestore y creación de un nuevo documento
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const handleSubmitSavedBook = async () => {
@@ -74,7 +74,6 @@ const Create = (props: {
   };
   // Focus sobre el primer input del formulario
   const inputRef = useRef<any>(null);
-
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
@@ -85,20 +84,39 @@ const Create = (props: {
     inputRef.current?.focus();
   };
   // Errores
-  const err = new Error(`Max 30 caracteres`);
+  const err = {
+    title: new Error(`Max 50 caracteres`),
+    author: new Error(`Max 30 caracteres`),
+    genre: new Error(`Max 15 caracteres`),
+  };
+  const [titleError, setTitleError] = useState<any>();
   const [authorError, setAuthorError] = useState<any>();
+  const [genreError, setGenreError] = useState<any>();
   useEffect(() => {
-    if (book.author.length >= 3) {
-      console.error(err);
-      setAuthorError(`${err.message}`);
-      authorError === true ? `${err}` : null;
+    if (book.title.length >= 51) {
+      console.error(err.title);
+      setTitleError(`${err.title.message}`);
+    } else {
+      setTitleError(``);
     }
-  }, [book.author]);
-
+    if (book.author.length >= 31) {
+      console.error(err.author);
+      setAuthorError(`${err.author.message}`);
+    } else {
+      setAuthorError(``);
+    }
+    if (book.genre.length >= 16) {
+      console.error(err.genre);
+      setGenreError(`${err.genre.message}`);
+    } else {
+      setGenreError(``);
+    }
+  }, [book.title, book.author, book.genre]);
+  // JSX.Element
   return (
     <>
       <View style={styles.containerBetween}>
-        <Text style={styles.titleText}>AÑADE INFORMACIÓN</Text>
+        <Text style={styles.titleText}>AÑADE TU LIBRO</Text>
         {loading && (
           <View style={styles.containerCenter}>
             <Text style={styles.subtitleText}>Is Loading...</Text>
@@ -113,7 +131,7 @@ const Create = (props: {
           <Input
             placeholder="Titulo"
             errorStyle={{ color: "red" }}
-            errorMessage={"Create an error"}
+            errorMessage={titleError}
             ref={inputRef}
             onChangeText={(value) =>
               handleInputOnChangeText("title", value.toLocaleUpperCase())
@@ -132,17 +150,24 @@ const Create = (props: {
           <Input
             placeholder="Género"
             errorStyle={{ color: "red" }}
-            /**
-             * ToDo: crear un error para la correcta visualización de los caracteres
-             */
-            errorMessage={"Create an error"}
+            errorMessage={genreError}
             onChangeText={(value) => handleInputOnChangeText("genre", value)}
             value={book.genre}
           />
 
           <View style={styles.placeholderContainer}>
             <TouchableOpacity onPress={handleToggle}>
-              <Text style={styles.placeholderText}>{placeholderDate}</Text>
+              <Text
+                style={{
+                  ...styles.placeholderText,
+                  color:
+                    placeholderDate !== "Fecha de publicación"
+                      ? "black"
+                      : "#86939e",
+                }}
+              >
+                {placeholderDate}
+              </Text>
             </TouchableOpacity>
             <View style={styles.placeholderBottom}></View>
             <Text style={styles.placeholderBottomText}></Text>
