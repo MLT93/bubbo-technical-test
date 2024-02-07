@@ -9,6 +9,7 @@ module.exports = {
     "standard-jsx",
     "standard-react",
     "standard-with-typescript",
+    "plugin:react-hooks/recommended",
   ],
   overrides: [
     {
@@ -27,6 +28,6 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["import", "promise", "react"],
+  plugins: ["import", "promise", "react", "plugin:react-hooks/recommended"],
   rules: {},
 };

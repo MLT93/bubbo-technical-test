@@ -7,16 +7,17 @@ import {
   getFirestore,
 } from "firebase/firestore";
 import { appFirebase } from "../../../credentials";
-import { View, Text, Pressable } from "react-native";
-import { Button, ButtonGroup, withTheme /* Text */ } from "@rneui/themed";
+import { Alert, View /* , Text */ } from "react-native";
+import { Button, ButtonGroup, withTheme, Text } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "../../../styles/styles";
 
 const db = getFirestore(appFirebase);
 
 const Detalles = ({ route }: { route: any }) => {
+  // Hook de navegación entre componentes anidados sin necesidad de pasar la prop.navigation.navigate() a través de la jerarquía de componentes
   const navigation = useNavigation();
-
+  // Llamada a la API para conseguir un solo documento
   const docRef = doc(db, "library", route.params.itemId);
   const [bookDataById, setBookDataById] = useState<DocumentData | null>();
   const [error, setError] = useState(null);
@@ -38,16 +39,17 @@ const Detalles = ({ route }: { route: any }) => {
       }
     })();
   }, [route.params.itemId]);
+  // Eliminar el documento
   const remove = async () => {
     try {
       await deleteDoc(docRef);
       console.log("Document deleted ID:", route.params.itemId);
-      navigation.goBack();
+      navigation.navigate("HOME" as never);
     } catch (error) {
       console.error("Can not remove the document:", error);
     }
   };
-
+  // JSX.Element
   return (
     <>
       <View style={styles.containerBetween}>
@@ -87,7 +89,7 @@ const Detalles = ({ route }: { route: any }) => {
                   height: 1.5,
                 },
               }}
-              onPress={() => remove()}
+              onPress={() => console.log("Modificar elemento")}
             />
             <Button
               title="BORRAR"
@@ -109,7 +111,11 @@ const Detalles = ({ route }: { route: any }) => {
                   height: 1.5,
                 },
               }}
-              onPress={() => remove()}
+              onPress={() => {
+                remove();
+                navigation.goBack();
+                navigation.navigate("HOME" as never);
+              }}
             />
           </View>
           <Button
@@ -132,7 +138,10 @@ const Detalles = ({ route }: { route: any }) => {
                 height: 1.5,
               },
             }}
-            onPress={() => navigation.goBack()}
+            onPress={() => {
+              /* navigation.navigate("HOME" as never); */
+              navigation.goBack();
+            }}
           />
         </View>
       </View>

@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, Pressable } from "react-native";
 import { appFirebase } from "../../../credentials.js";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  onSnapshot,
+} from "firebase/firestore";
 import { Book } from "../../../utils/utils.js";
 import { styles } from "../../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
@@ -19,46 +24,40 @@ const Library = (props: {
     ) => void;
   };
 }) => {
+  // Hook de navegación entre componentes anidados sin necesidad de pasar la prop.navigation.navigate() a través de la jerarquía de componentes
   const navigation = useNavigation();
-
-  const [data, setData] = useState<Book[] | any>([]);
+  // Llamada a la API
+  const [data, setData] = useState<any | Book[]>([]);
   const [error, setError] = useState<null | string>(null);
-  const [loading, setLoading] = useState(true);
-  useEffect(
-    () => {
-      (async () => {
-        try {
-          setLoading(true);
-          const response = await getDocs(collection(db, "library"));
-          if (response.size === 0) {
-            throw new Error(`404 - Not Found`);
-          }
-          console.log("Length of Object[]:", response.size);
-          const books = response.docs.map((doc) => {
-            return {
-              id: doc.id,
-              doc: doc.data(),
-            };
-          });
-          setData(books);
-        } catch (error) {
-          if (error instanceof Error) {
-            console.error(
-              "There isn't any document in the API:",
-              error.message
-            );
-            setError(error.message);
-          }
-        } finally {
-          setLoading(false);
+  const [loading, setLoading] = useState<boolean>();
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true);
+        const response = await getDocs(collection(db, "library"));
+        const dbLength = response.size;
+        if (dbLength === 0) {
+          throw new Error(`404 - Not Found`);
         }
-      })();
-    },
-    [
-      /* db */
-    ]
-  );
-
+        console.log("Length of Object[]:", response.size);
+        const books = response.docs.map((doc) => {
+          return {
+            id: doc.id,
+            doc: doc.data(),
+          };
+        });
+        setData(books);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error("There isn't any document in the API:", error.message);
+          setError(error.message);
+        }
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [db]);
+  // JSX.Element
   return (
     <>
       <View style={styles.containerBetween}>
@@ -73,27 +72,29 @@ const Library = (props: {
             <Text style={styles.subtitleText}>{`${error}`}</Text>
           </View>
         )}
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item, index }) =>
-            item && (
-              <Pressable
-                onPress={() =>
-                  /* props.navigation.navigate("Details", { itemId: item.id }) */
-                  props.navigation.navigate("Details", {
-                    itemId: item.id,
-                  })
-                }
-              >
-                <Text>
-                  {index}. {item.doc.title}
-                </Text>
-              </Pressable>
-            )
-          }
-        />
-        <View>
+        <View style={styles.containerFlatListCenter}>
+          <FlatList
+            style={styles.flatListText}
+            data={data}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item, index }) =>
+              item && (
+                <Pressable
+                  onPress={() =>
+                    props.navigation.navigate("Details", {
+                      itemId: item.id,
+                    })
+                  }
+                >
+                  <Text>
+                    {index}. {item.doc.title}
+                  </Text>
+                </Pressable>
+              )
+            }
+          />
+        </View>
+        <View style={styles.containerCenterEnd}>
           <Button
             title="AÑADE UN LIBRO"
             titleStyle={{ fontWeight: "700" }}
@@ -136,7 +137,10 @@ const Library = (props: {
                 height: 1.5,
               },
             }}
-            onPress={() => navigation.goBack()}
+            onPress={() => {
+              navigation.goBack();
+              navigation.navigate("HOME" as never);
+            }}
           />
         </View>
       </View>

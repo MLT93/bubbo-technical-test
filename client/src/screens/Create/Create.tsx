@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { EffectCallback, useEffect, useRef, useState } from "react";
 import { View, Text, Alert, TouchableOpacity, Modal } from "react-native";
 import { appFirebase } from "../../../credentials.js";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
@@ -7,12 +7,15 @@ import DatePicker from "react-native-modern-datepicker";
 import { getFormatedDate } from "react-native-modern-datepicker";
 import { Input } from "@rneui/themed";
 import { Button } from "@rneui/base";
+import { useNavigation } from "@react-navigation/native";
 
 const db = getFirestore(appFirebase);
 
 const Create = (props: {
   navigation: { navigate: (arg0: string) => void };
 }) => {
+  // Hook de navegación entre componentes anidados sin necesidad de pasar la prop.navigation.navigate() a través de la jerarquía de componentes
+  const navigation = useNavigation();
   // Captura de los valores de cada input al escribir
   const [book, setBook] = useState({
     title: "",
@@ -46,11 +49,11 @@ const Create = (props: {
     setIsDisabled(!areFieldsFilled);
   }, [book, setIsDisabled]);
   // Llamada a la API Firestore y creación de un nuevo documento
-  const [loading, setLoading] = useState(false);
+  const [savingBook, setSavingBook] = useState(false);
   const [error, setError] = useState(null);
   const handleSubmitSavedBook = async () => {
     try {
-      setLoading(true);
+      setSavingBook(true);
       const docAdded = await addDoc(collection(db, "library"), {
         ...book,
       });
@@ -58,8 +61,6 @@ const Create = (props: {
         throw new Error("You got a problem adding book");
       }
       console.log("Document written with ID:", docAdded.id);
-      Alert.alert("Your book has been saved!");
-      props.navigation.navigate("Library");
     } catch (error: any) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -69,7 +70,9 @@ const Create = (props: {
       }
       setError(error);
     } finally {
-      setLoading(false);
+      setSavingBook(false);
+      Alert.alert("Your book has been saved!");
+      props.navigation.navigate("HOME");
     }
   };
   // Focus sobre el primer input del formulario
@@ -89,9 +92,9 @@ const Create = (props: {
     author: new Error(`Max 30 caracteres`),
     genre: new Error(`Max 15 caracteres`),
   };
-  const [titleError, setTitleError] = useState<any>();
-  const [authorError, setAuthorError] = useState<any>();
-  const [genreError, setGenreError] = useState<any>();
+  const [titleError, setTitleError] = useState<string>("");
+  const [authorError, setAuthorError] = useState<string>("");
+  const [genreError, setGenreError] = useState<string>("");
   useEffect(() => {
     if (book.title.length >= 51) {
       console.error(err.title);
@@ -117,10 +120,12 @@ const Create = (props: {
     <>
       <View style={styles.containerBetween}>
         <Text style={styles.titleText}>AÑADE TU LIBRO</Text>
-        {loading && (
-          <View style={styles.containerCenter}>
-            <Text style={styles.subtitleText}>Is Loading...</Text>
-          </View>
+        {savingBook && (
+          <Modal animationType="fade" transparent={false}>
+            <View style={styles.containerCenter}>
+              <Text style={styles.subtitleText}>Guardando tu libro...</Text>
+            </View>
+          </Modal>
         )}
         {error && (
           <View style={styles.containerCenter}>
@@ -193,7 +198,7 @@ const Create = (props: {
                   }}
                 />
                 <Button
-                  title="CERRAR"
+                  title="SELECCIONAR"
                   titleStyle={{ fontWeight: "700" }}
                   containerStyle={{
                     width: 200,
@@ -241,7 +246,10 @@ const Create = (props: {
                   height: 1.5,
                 },
               }}
-              onPress={handleSubmitSavedBook}
+              onPress={() => {
+                handleSubmitSavedBook();
+                navigation.goBack();
+              }}
             />
             <Button
               title="RESTABLECER"
@@ -286,7 +294,10 @@ const Create = (props: {
                 height: 1.5,
               },
             }}
-            onPress={() => props.navigation.navigate("Library")}
+            onPress={() => {
+              /* props.navigation.navigate("HOME"); */
+              navigation.goBack();
+            }}
           />
         </View>
       </View>

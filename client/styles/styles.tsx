@@ -17,6 +17,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 10,
   },
+  containerFlatListCenter: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 10,
+  },
   containerCenterEnd: {
     alignItems: "center",
     justifyContent: "flex-end",
@@ -75,6 +81,9 @@ const styles = StyleSheet.create({
   normalText: {
     fontSize: 17,
     fontWeight: "normal",
+  },
+  flatListText: {
+    gap: 13,
   },
   placeholderContainer: {
     appearance: "none",
