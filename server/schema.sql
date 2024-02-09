@@ -14,8 +14,8 @@ DROP TABLE IF EXISTS books;
 CREATE TABLE
   books (
     book_id VARCHAR NOT NULL PRIMARY KEY ,
-    title VARCHAR(70) NOT NULL,
     author VARCHAR(30) NOT NULL,
     genre VARCHAR(15) NOT NULL,
+    title VARCHAR(70) NOT NULL,
     publication_date DATE NOT NULL,
   );

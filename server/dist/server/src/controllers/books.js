@@ -13,12 +13,9 @@ const getAll = async (req, res) => {
     const querySnapshot = (await db.collection("library").get()).docs;
     const firebaseData = querySnapshot.map((doc) => ({
         book_id: doc.id,
-        title: doc.data().title,
-        author: doc.data().author,
-        genre: doc.data().genre,
-        publication_date: doc.data().date,
+        ...doc.data(),
     }));
-    console.log(firebaseData);
+    console.log({ postgres: books, firebase: firebaseData });
     res.status(200).json({ postgres: books, firebase: firebaseData });
 };
 const getOneById = async (req, res) => {
@@ -44,6 +41,9 @@ const create = async (req, res) => {
         await test_firebase.none(`INSERT INTO books (title, author, genre, publication_date) VALUES ($1, $2, $3, $4)`, [title, author, genre, publication_date]);
         res.status(201).json({ msg: "The book was created" });
     }
+    await db.collection("library").add({
+        ...newBook,
+    });
 };
 const updateById = async (req, res) => {
     const { id } = req.params;
