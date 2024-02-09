@@ -12,28 +12,28 @@ import {
   getOneById,
   updateById,
 } from "./controllers/books.js";
+import { db } from "./database.js";
 
-// starting server
+// Starting server
 const app = express();
-
-// middlewares
+// Middlewares
 app.use(morgan(`dev`));
 app.use(express.json());
+// User authentication
+app.post("/postgres/users/login", logIn);
+app.post("/postgres/users/signup", signUp);
+app.get("/postgres/users/logout", authorization, logOut);
+// Test CRUD
+app.get("/postgres/books", getAll);
+app.get("/postgres/books/:id", getOneById);
+app.post("/postgres/books", create);
+app.put("/postgres/books/:id", updateById);
+app.delete("/postgres/books/:id", deleteById);
+// Firebase CRUD
+app.get("/firebase/books", getAll);
 
-// user authentication
-app.post("/api/users/login", logIn);
-app.post("/api/users/signup", signUp);
-app.get("/api/users/logout", authorization, logOut);
-
-// CRUD
-app.get("/api/books", getAll);
-app.get("/api/books/:id", getOneById);
-app.post("/api/books", create);
-app.put("/api/books/:id", updateById);
-app.delete("/api/books/:id", deleteById);
-
-// listen port
-const PORT = process.env.PORT || 3021;
+// Listen port
+let PORT = process.env.PORT || 3007;
 app.listen(PORT, () => {
   console.log(`App listening on port http://localhost:${PORT}`);
 });

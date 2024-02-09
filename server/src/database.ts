@@ -1,18 +1,23 @@
 import pgPromise from "pg-promise";
+import { applicationDefault, initializeApp } from "firebase-admin/app";
+import { getFirestore } from "firebase-admin/firestore";
 
-// Conexión al servidor
-const POSTGRES_HOST = process.env.POSTGRES_HOST;
-const POSTGRES_PORT = process.env.POSTGRES_PORT;
-const POSTGRES_USER = process.env.POSTGRES_USER;
-const POSTGRES_PASSWORD = process.env.POSTGRES_PASSWORD;
-const firebase = pgPromise()(
+// Connection to testing database
+const { POSTGRES_HOST, POSTGRES_PORT, POSTGRES_USER, POSTGRES_PASSWORD } =
+  process.env;
+const test_firebase = pgPromise()(
   `postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/postgres`
 );
-console.log(firebase);
+console.log(test_firebase);
+// Connection to Firebase server & database
+initializeApp({
+  credential: applicationDefault(),
+});
+const db = getFirestore();
 
-// Creación de tablas
+// Table creation
 const setupDb = async () => {
-  await firebase.none(`  
+  await test_firebase.none(`  
   DROP TABLE IF EXISTS users;
 
   CREATE TABLE
@@ -29,29 +34,27 @@ const setupDb = async () => {
   CREATE TABLE
     books (
       book_id SERIAL NOT NULL PRIMARY KEY,
-      title VARCHAR(50) NOT NULL,
+      title VARCHAR(70) NOT NULL,
       author VARCHAR(30) NOT NULL,
       genre VARCHAR(15) NOT NULL,
-      publication_date DATE NOT NULL,
-      isbn VARCHAR(10) NOT NULL UNIQUE
+      publication_date DATE NOT NULL
     );
   `);
 
-  // Introducción de datos en las tablas
-  await firebase.none(`
+  // Adding data into test server
+  await test_firebase.none(`
   INSERT INTO users 
   (username, password, email)
   VALUES
   ('Marcos', 'asd123', 'testing@test.com');      
   `);
-  await firebase.none(`
+  await test_firebase.none(`
   INSERT INTO books
-  (title, author, genre, publication_date, isbn)
+  (title, author, genre, publication_date)
   VALUES 
-  ('Harry Potter and the Sorcerers Stone', 'J.K. Rowling', 'Fantasy', '10/05/1997', '0590358324');
+  ('Harry Potter and the Sorcerers Stone', 'J.K. Rowling', 'Fantasy', '1997/05/10');
   `);
 };
-
 setupDb();
 
-export { firebase };
+export { test_firebase, db };

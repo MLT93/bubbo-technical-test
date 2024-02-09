@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import joi from "joi";
-import { firebase } from "../database.js";
+import { test_firebase } from "../database.js";
+import { db } from "../database.js";
 
 type Book = {
   id?: number;
@@ -19,13 +20,23 @@ const bookScheme = joi.object({
 });
 
 const getAll = async (req: Request, res: Response) => {
-  const books = await firebase.many(`SELECT * FROM books;`);
-  res.status(200).json(books);
+  const books = await test_firebase.many(`SELECT * FROM books;`);
+  const querySnapshot = (await db.collection("library").get()).docs;
+  const firebaseData = querySnapshot.map((doc) => ({
+    book_id: doc.id,
+    title: doc.data().title,
+    author: doc.data().author,
+    genre: doc.data().genre,
+    publication_date: doc.data().date,
+  }));
+  console.log(firebaseData);
+
+  res.status(200).json({ postgres: books, firebase: firebaseData });
 };
 
 const getOneById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const book = await firebase.oneOrNone(
+  const book = await test_firebase.oneOrNone(
     `SELECT * FROM books WHERE book_id=$1;`,
     Number(id)
   );
@@ -48,7 +59,7 @@ const create = async (req: Request, res: Response) => {
       .status(404)
       .json({ msg: validateNewBook.error.details[0].message });
   } else {
-    await firebase.none(
+    await test_firebase.none(
       `INSERT INTO books (title, author, genre, publication_date) VALUES ($1, $2, $3, $4)`,
       [title, author, genre, publication_date]
     );
@@ -60,7 +71,7 @@ const create = async (req: Request, res: Response) => {
 const updateById = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { title, author, genre, publication_date } = req.body;
-  await firebase.none(
+  await test_firebase.none(
     `UPDATE books SET title=$2, author=$3, genre=$4, publication_date=$5 WHERE book_id=$1`,
     [id, title, author, genre, publication_date]
   );
@@ -70,7 +81,7 @@ const updateById = async (req: Request, res: Response) => {
 
 const deleteById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  await firebase.none(`DELETE FROM books WHERE book_id=$1`, Number(id));
+  await test_firebase.none(`DELETE FROM books WHERE book_id=$1`, Number(id));
 
   res.status(200).json({ msg: "The book was deleted" });
 };

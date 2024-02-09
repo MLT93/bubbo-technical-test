@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:1": "tsc-watch --noClear -p ./tsconfig.json --outDir ./dist --onSuccess \"node ./dist/app.js\"",
+    "dev:1": "tsc-watch --noClear -p ./tsconfig.json --outDir ./dist --onSuccess \"node ./dist/server/src/app.js\"",
     "dev:2": "nodemon ./dist/app.js",
     "dev:3": "node --watch ./dist/app.js",
     "build": "tsc"

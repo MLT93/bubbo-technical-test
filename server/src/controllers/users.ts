@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import { firebase } from "../database.js";
+import { test_firebase } from "../database.js";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 
 const logIn = async (req: Request, res: Response) => {
   const { username, password, email } = req.body;
 
-  const user = await firebase.one(`SELECT * FROM users WHERE username=$1`, [
+  const user = await test_firebase.one(`SELECT * FROM users WHERE username=$1`, [
     username,
     email,
   ]);
@@ -19,7 +19,7 @@ const logIn = async (req: Request, res: Response) => {
     const { SECRET = "" } = process.env;
     const token = jwt.sign(payload, SECRET);
 
-    await firebase.none(`UPDATE users SET token=$2 WHERE user_id=$1`, [
+    await test_firebase.none(`UPDATE users SET token=$2 WHERE user_id=$1`, [
       user.id,
       token,
     ]);
@@ -36,7 +36,7 @@ const logIn = async (req: Request, res: Response) => {
 
 const signUp = async (req: Request, res: Response) => {
   const { username, password, email } = req.body;
-  const user = await firebase.oneOrNone(
+  const user = await test_firebase.oneOrNone(
     `SELECT * FROM users WHERE username=$1`,
     username
   );
@@ -44,7 +44,7 @@ const signUp = async (req: Request, res: Response) => {
   if (user) {
     res.status(409).json({ msg: `Username already exist` });
   } else {
-    const { id } = await firebase.one(
+    const { id } = await test_firebase.one(
       `INSERT INTO users (username, password, email) VALUES ($1, $2, $3) RETURNING user_id`,
       [username, password, email]
     );
@@ -55,7 +55,7 @@ const signUp = async (req: Request, res: Response) => {
 const logOut = async (req: Request, res: Response) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const user: any = req.user;
-  await firebase.none(`UPDATE users SET token=$2 WHERE user_id=$1`, [user?.id, null]);
+  await test_firebase.none(`UPDATE users SET token=$2 WHERE user_id=$1`, [user?.id, null]);
   res.status(200).json({ msg: `Logout successful` });
 };
 
