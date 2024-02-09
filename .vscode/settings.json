@@ -7,5 +7,11 @@
         "postgres",
         "Pressable"
     ],
-    "versionlens.suggestions.showOnStartup": false
+    "versionlens.suggestions.showOnStartup": false,
+    "breadcrumbs.enabled": false,
+    "editor.stickyScroll.defaultModel": "outlineModel",
+    "editor.stickyScroll.maxLineCount": 5,
+    "workbench.tree.enableStickyScroll": true,
+    "editor.stickyScroll.scrollWithEditor": true,
+    "editor.stickyScroll.enabled": false
 }

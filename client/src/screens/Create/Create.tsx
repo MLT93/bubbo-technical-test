@@ -21,7 +21,7 @@ const Create = (props: {
     title: "",
     author: "",
     genre: "",
-    date: "",
+    publication_date: "",
   });
   const handleInputOnChangeText = (name: string, value: string) =>
     setBook({ ...book, [name]: value });
@@ -44,7 +44,7 @@ const Create = (props: {
       book.title.trim() !== "" &&
       book.author.trim() !== "" &&
       book.genre.trim() !== "" &&
-      book.date.trim() !== "";
+      book.publication_date.trim() !== "";
 
     setIsDisabled(!areFieldsFilled);
   }, [book, setIsDisabled]);
@@ -82,13 +82,13 @@ const Create = (props: {
   }, []);
   // Reset de los campos escritos
   const handleResetForm = () => {
-    setBook({ title: "", author: "", genre: "", date: "" });
+    setBook({ title: "", author: "", genre: "", publication_date: "" });
     setPlaceholderDate("Fecha de publicación");
     inputRef.current?.focus();
   };
   // Errores
   const err = {
-    title: new Error(`Max 50 caracteres`),
+    title: new Error(`Max 70 caracteres`),
     author: new Error(`Max 30 caracteres`),
     genre: new Error(`Max 15 caracteres`),
   };
@@ -96,7 +96,7 @@ const Create = (props: {
   const [authorError, setAuthorError] = useState<string>("");
   const [genreError, setGenreError] = useState<string>("");
   useEffect(() => {
-    if (book.title.length >= 51) {
+    if (book.title.length >= 71) {
       console.error(err.title);
       setTitleError(`${err.title.message}`);
     } else {
@@ -138,9 +138,7 @@ const Create = (props: {
             errorStyle={{ color: "red" }}
             errorMessage={titleError}
             ref={inputRef}
-            onChangeText={(value) =>
-              handleInputOnChangeText("title", value.toLocaleUpperCase())
-            }
+            onChangeText={(value) => handleInputOnChangeText("title", value)}
             value={book.title}
           />
 
@@ -184,9 +182,9 @@ const Create = (props: {
                   mode="calendar"
                   maximumDate={initialDate}
                   onDateChange={(value) =>
-                    handleInputOnChangeDate("date", value)
+                    handleInputOnChangeDate("publication_date", value)
                   }
-                  selected={book.date}
+                  selected={book.publication_date}
                   options={{
                     backgroundColor: "#080516",
                     textHeaderColor: "#469ab6",

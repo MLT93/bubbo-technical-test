@@ -62,7 +62,7 @@ const Detalles = ({ route }: { route: any }) => {
         {bookDataById && (
           <View style={styles.containerCenter}>
             <Text>Title: {bookDataById.title}</Text>
-            <Text>Date: {bookDataById.date}</Text>
+            <Text>Date: {bookDataById.publication_date}</Text>
             <Text>Author: {bookDataById.author}</Text>
             <Text>Genre: {bookDataById.genre}</Text>
           </View>
@@ -139,8 +139,8 @@ const Detalles = ({ route }: { route: any }) => {
               },
             }}
             onPress={() => {
-              /* navigation.navigate("HOME" as never); */
               navigation.goBack();
+              /* navigation.navigate("HOME" as never); */
             }}
           />
         </View>

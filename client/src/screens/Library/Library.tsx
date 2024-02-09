@@ -34,7 +34,8 @@ const Library = (props: {
     (async () => {
       try {
         setLoading(true);
-        const response = await getDocs(collection(db, "library"));
+        // Llamada sin actualizar lo que recibimos de la base de datos en el caso de que hubiese cambios (sin recargar la página)
+        /* const response = await getDocs(collection(db, "library"));
         const dbLength = response.size;
         if (dbLength === 0) {
           throw new Error(`404 - Not Found`);
@@ -46,7 +47,34 @@ const Library = (props: {
             doc: doc.data(),
           };
         });
-        setData(books);
+        setData(books); */
+        // Llamada con actualizaciones al modificar la base de datos (recargando la página)
+        const unsubscribeResponse = onSnapshot(
+          collection(db, "library"),
+          (snapshot) => {
+            const books: Book[] = [];
+            snapshot.forEach((doc) => {
+              books.push({
+                id: doc.id,
+                doc: doc.data(),
+              });
+            });
+            setData(books);
+          },
+          async (error) => {
+            const response = await getDocs(collection(db, "library"));
+            const dbLength = response.size;
+            if (dbLength === 0) {
+              throw new Error(`404 - Not Found`);
+            }
+            console.log("Length of Object[]:", response.size);
+            setError("Error fetching data: " + error.message);
+            console.error("Error fetching data: " + error.message);
+          }
+        );
+        return () => {
+          unsubscribeResponse();
+        };
       } catch (error) {
         if (error instanceof Error) {
           console.error("There isn't any document in the API:", error.message);
@@ -87,7 +115,7 @@ const Library = (props: {
                   }
                 >
                   <Text>
-                    {index}. {item.doc.title}
+                    {index}. {item.doc.title.toLocaleUpperCase()}
                   </Text>
                 </Pressable>
               )
