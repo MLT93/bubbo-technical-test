@@ -31,9 +31,25 @@ const setupDb = async () => {
   
   DROP TABLE IF EXISTS books;
   
+  CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+  CREATE OR REPLACE FUNCTION generate_book_id() RETURNS VARCHAR(20) AS
+  $function$
+  DECLARE
+      chars VARCHAR := 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890123456789';
+      id VARCHAR(20) := '';
+      i INT;
+  BEGIN
+      FOR i IN 1..20 LOOP
+          id := id || substr(chars, floor(random() * length(chars) + 1)::int, 1);
+      END LOOP;
+      RETURN id;
+  END;
+  $function$ LANGUAGE plpgsql;
+  
   CREATE TABLE
     books (
-      book_id SERIAL NOT NULL PRIMARY KEY,
+      book_id VARCHAR(20) PRIMARY KEY DEFAULT generate_book_id(),
       author VARCHAR(30) NOT NULL,
       genre VARCHAR(15) NOT NULL,
       title VARCHAR(70) NOT NULL,

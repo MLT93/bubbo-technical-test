@@ -22,7 +22,11 @@ app.post("/postgres/books", create);
 app.put("/postgres/books/:id", updateById);
 app.delete("/postgres/books/:id", deleteById);
 // Firebase CRUD
-app.get("/firebase/books", getAll);
+app.get("/books", getAll);
+app.get("/books/:id", getOneById);
+app.post("/books", create);
+app.put("/books/:id", updateById);
+app.delete("/books/:id", deleteById);
 // Listen port
 let PORT = process.env.PORT || 3007;
 app.listen(PORT, () => {

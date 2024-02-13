@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cd server/ && npm run dev:1 && cd .. && cd client/ && npm run web"
+    "server": "cd server/ && npm run dev:1",
+    "client": "cd client/ && npm run web"
   },
-  "keywords": [],
   "license": "ISC",
   "description": "The objective of this technical test is to evaluate the skills of the roller in it development of a complete application using Node.js, Express, Firebase and React Native. Hopefully the developer will be able to build a REST API using Node.js and Express, integrate Firebase Firestore as a data base, and roll out a mobile application using React Native to consume and display the data from the API. Carry out technical test for the Bubbo company"
 }

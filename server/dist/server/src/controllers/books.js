@@ -21,7 +21,10 @@ const getAll = async (req, res) => {
 const getOneById = async (req, res) => {
     const { id } = req.params;
     const book = await test_firebase.oneOrNone(`SELECT * FROM books WHERE book_id=$1;`, Number(id));
-    res.status(200).json(book);
+    const doc = await db.collection("library").doc(id).get();
+    res
+        .status(200)
+        .json({ postgres: book, firebase: { book_id: doc.id, ...doc.data() } });
 };
 const create = async (req, res) => {
     const { title, author, genre, publication_date } = req.body;
@@ -49,11 +52,13 @@ const updateById = async (req, res) => {
     const { id } = req.params;
     const { title, author, genre, publication_date } = req.body;
     await test_firebase.none(`UPDATE books SET title=$2, author=$3, genre=$4, publication_date=$5 WHERE book_id=$1`, [id, title, author, genre, publication_date]);
+    await db.collection("library").doc(id).update(req.body);
     res.status(200).json({ msg: "The book was updated" });
 };
 const deleteById = async (req, res) => {
     const { id } = req.params;
     await test_firebase.none(`DELETE FROM books WHERE book_id=$1`, Number(id));
+    await db.collection("library").doc(id).delete();
     res.status(200).json({ msg: "The book was deleted" });
 };
 /* const createImage = async (req: Request, res: Response) => {

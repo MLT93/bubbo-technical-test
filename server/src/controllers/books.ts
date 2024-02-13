@@ -4,7 +4,7 @@ import { test_firebase } from "../database.js";
 import { db } from "../database.js";
 
 type Book = {
-  id?: number;
+  book_id?: string;
   title: string;
   author: string;
   genre: string;
@@ -37,7 +37,11 @@ const getOneById = async (req: Request, res: Response) => {
     Number(id)
   );
 
-  res.status(200).json(book);
+  const doc = await db.collection("library").doc(id).get();
+
+  res
+    .status(200)
+    .json({ postgres: book, firebase: { book_id: doc.id, ...doc.data() } });
 };
 
 const create = async (req: Request, res: Response) => {
@@ -76,12 +80,16 @@ const updateById = async (req: Request, res: Response) => {
     [id, title, author, genre, publication_date]
   );
 
+  await db.collection("library").doc(id).update(req.body);
+
   res.status(200).json({ msg: "The book was updated" });
 };
 
 const deleteById = async (req: Request, res: Response) => {
   const { id } = req.params;
   await test_firebase.none(`DELETE FROM books WHERE book_id=$1`, Number(id));
+
+  await db.collection("library").doc(id).delete();
 
   res.status(200).json({ msg: "The book was deleted" });
 };
