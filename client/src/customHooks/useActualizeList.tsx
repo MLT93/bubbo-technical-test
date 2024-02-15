@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { appFirebase } from "../../credentials";
 import { collection, getFirestore, onSnapshot } from "firebase/firestore";
-import { Book } from "../../utils/utils";
+import { Doc } from "../../utils/utils";
 
 const useActualizeList = () => {
-  const [listChanged, setListChanged] = useState<Book[] | null>(null);
+  const [listChanged, setListChanged] = useState<Doc[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const db = getFirestore(appFirebase);
     const unsubscribe = onSnapshot(collection(db, "library"), (snapshot) => {
-      const changedBooks: Book[] = [];
+      const changedBooks: Doc[] = [];
       snapshot.forEach((doc) => {
         changedBooks.push({
           id: doc.id,
@@ -33,8 +33,7 @@ const useActualizeList = () => {
 export { useActualizeList };
 
 
-/* Ejemplo de uso: */
-
+// Ejemplo de uso:
 /**
  * 
  ** const MyComponent = () => {

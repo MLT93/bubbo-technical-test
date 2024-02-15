@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 import { appFirebase } from "../../../credentials.js";
 import {
   getFirestore,
@@ -7,7 +13,7 @@ import {
   getDocs,
   onSnapshot,
 } from "firebase/firestore";
-import { Book } from "../../../utils/utils.js";
+import { Doc } from "../../../utils/utils.js";
 import { styles } from "../../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import { Button } from "@rneui/base";
@@ -27,32 +33,37 @@ const Library = (props: {
   // Hook de navegación entre componentes anidados sin necesidad de pasar la prop.navigation.navigate() a través de la jerarquía de componentes
   const navigation = useNavigation();
   // Llamada a la API
-  const [data, setData] = useState<any | Book[]>([]);
+  const [data, setData] = useState<any | Doc[]>([]);
   const [error, setError] = useState<null | string>(null);
-  const [loading, setLoading] = useState<boolean>();
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     (async () => {
       try {
         setLoading(true);
         // Llamada sin actualizar lo que recibimos de la base de datos en el caso de que hubiese cambios (sin recargar la página)
-        /* const response = await getDocs(collection(db, "library"));
-        const dbLength = response.size;
-        if (dbLength === 0) {
-          throw new Error(`404 - Not Found`);
-        }
-        console.log("Length of Object[]:", response.size);
-        const books = response.docs.map((doc) => {
-          return {
-            id: doc.id,
-            doc: doc.data(),
-          };
-        });
-        setData(books); */
+        /**
+         *
+         **  const response = await getDocs(collection(db, "library"));
+         **  const dbLength = response.size;
+         *
+         **  if (dbLength === 0) {
+         **     throw new Error(`404 - Not Found`);
+         **  }
+         *
+         **  console.log("Length of Object[]:", response.size);
+         **  const books = response.docs.map((doc) => {
+         **    return {
+         **      id: doc.id,
+         **      doc: doc.data(),
+         **    };
+         **  });
+         *
+         */
         // Llamada con actualizaciones al modificar la base de datos (recargando la página)
         const unsubscribeResponse = onSnapshot(
           collection(db, "library"),
           (snapshot) => {
-            const books: Book[] = [];
+            const books: Doc[] = [];
             snapshot.forEach((doc) => {
               books.push({
                 id: doc.id,
@@ -62,14 +73,14 @@ const Library = (props: {
             setData(books);
           },
           async (error) => {
+            setError("Error fetching data: " + error.message);
+            console.error("Error fetching data: " + error.message);
             const response = await getDocs(collection(db, "library"));
             const dbLength = response.size;
             if (dbLength === 0) {
               throw new Error(`404 - Not Found`);
             }
             console.log("Length of Object[]:", response.size);
-            setError("Error fetching data: " + error.message);
-            console.error("Error fetching data: " + error.message);
           }
         );
         return () => {
@@ -92,7 +103,7 @@ const Library = (props: {
         <Text style={styles.titleText}>LISTA DE LIBROS</Text>
         {loading && (
           <View style={styles.containerCenter}>
-            <Text style={styles.subtitleText}>Is Loading...</Text>
+            <ActivityIndicator size={"large"} color={"#86939e"} />
           </View>
         )}
         {error && (

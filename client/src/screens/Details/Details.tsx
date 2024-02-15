@@ -7,14 +7,15 @@ import {
   getFirestore,
 } from "firebase/firestore";
 import { appFirebase } from "../../../credentials";
-import { Alert, View /* , Text */ } from "react-native";
-import { Button, ButtonGroup, withTheme, Text } from "@rneui/themed";
+import { View } from "react-native";
+import { Button, Text } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "../../../styles/styles";
+import { InputForDoc } from "../../../utils/utils";
 
 const db = getFirestore(appFirebase);
 
-const Detalles = ({ route }: { route: any }) => {
+const Details = ({ route }: { route: any }) => {
   // Hook de navegación entre componentes anidados sin necesidad de pasar la prop.navigation.navigate() a través de la jerarquía de componentes
   const navigation = useNavigation();
   // Llamada a la API para conseguir un solo documento
@@ -49,6 +50,14 @@ const Detalles = ({ route }: { route: any }) => {
       console.error("Can not remove the document:", error);
     }
   };
+  // Modificar el documento
+  const [modifyBook, setModifyBook] = useState<InputForDoc>({
+    title: "",
+    author: "",
+    genre: "",
+    publication_date: "",
+  });
+  const update = async () => {};
   // JSX.Element
   return (
     <>
@@ -89,7 +98,7 @@ const Detalles = ({ route }: { route: any }) => {
                   height: 1.5,
                 },
               }}
-              onPress={() => console.log("Modificar elemento")}
+              onPress={() => navigation.navigate("CRUD" as never)}
             />
             <Button
               title="BORRAR"
@@ -149,4 +158,4 @@ const Detalles = ({ route }: { route: any }) => {
   );
 };
 
-export { Detalles };
+export { Details };

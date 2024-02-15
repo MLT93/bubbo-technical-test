@@ -1,4 +1,4 @@
-import React, { EffectCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, Alert, TouchableOpacity, Modal } from "react-native";
 import { appFirebase } from "../../../credentials.js";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
@@ -8,6 +8,7 @@ import { getFormatedDate } from "react-native-modern-datepicker";
 import { Input } from "@rneui/themed";
 import { Button } from "@rneui/base";
 import { useNavigation } from "@react-navigation/native";
+import { InputForDoc } from "../../../utils/utils.js";
 
 const db = getFirestore(appFirebase);
 
@@ -17,12 +18,13 @@ const Create = (props: {
   // Hook de navegación entre componentes anidados sin necesidad de pasar la prop.navigation.navigate() a través de la jerarquía de componentes
   const navigation = useNavigation();
   // Captura de los valores de cada input al escribir
-  const [book, setBook] = useState({
+  const document: InputForDoc = {
     title: "",
     author: "",
     genre: "",
     publication_date: "",
-  });
+  }
+  const [book, setBook] = useState(document);
   const handleInputOnChangeText = (name: string, value: string) =>
     setBook({ ...book, [name]: value });
   // Toggle

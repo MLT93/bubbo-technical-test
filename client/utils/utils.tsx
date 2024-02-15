@@ -1,14 +1,23 @@
 import { DocumentData } from "firebase/firestore";
 
-// TYPE FOR DATA IMPORT FROM FIRESTORE
-interface Book {
+//* Interfaces */
+
+// INTERFACE FOR BOOKS
+interface InputForDoc {
+  title: string;
+  author: string;
+  genre: string;
+  publication_date: string;
+}
+
+// INTERFACE FOR DATA IMPORT FROM FIRESTORE
+interface Doc {
   id: string;
   doc: DocumentData;
 }
-
 // INTERFACE FOR LIKES
 interface Likes {
   baseLike?: number;
 }
 
-export type { Book, Likes };
+export type { InputForDoc, Doc, Likes };
