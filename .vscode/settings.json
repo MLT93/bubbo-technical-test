@@ -8,7 +8,7 @@
         "Pressable"
     ],
     "versionlens.suggestions.showOnStartup": false,
-    "breadcrumbs.enabled": false,
+    "breadcrumbs.enabled": true,
     "editor.stickyScroll.defaultModel": "outlineModel",
     "editor.stickyScroll.maxLineCount": 5,
     "workbench.tree.enableStickyScroll": true,

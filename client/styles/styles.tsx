@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 10,
   },
   containerFlatListCenter: {
     flex: 1,

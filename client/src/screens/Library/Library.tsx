@@ -5,6 +5,7 @@ import {
   FlatList,
   Pressable,
   ActivityIndicator,
+  Dimensions
 } from "react-native";
 import { appFirebase } from "../../../credentials.js";
 import {
@@ -18,7 +19,10 @@ import { styles } from "../../../styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import { Button } from "@rneui/base";
 
+// Iniciar la base de datos
 const db = getFirestore(appFirebase);
+// Obtener las dimensiones de la pantalla que se esté utilizando
+const { width, height } = Dimensions.get('window');
 
 const Library = (props: {
   navigation: {
@@ -99,7 +103,7 @@ const Library = (props: {
   // JSX.Element
   return (
     <>
-      <View style={styles.containerBetween}>
+      <View style={[styles.containerBetween]}>
         <Text style={styles.titleText}>LISTA DE LIBROS</Text>
         {loading && (
           <View style={styles.containerCenter}>
@@ -135,10 +139,10 @@ const Library = (props: {
         </View>
         <View style={styles.containerCenterEnd}>
           <Button
-            title="AÑADE UN LIBRO"
+            title="AGREGA"
             titleStyle={{ fontWeight: "700" }}
             containerStyle={{
-              width: 200,
+              width: 170,
             }}
             buttonStyle={{
               backgroundColor: "#5a9ae6",
@@ -160,7 +164,7 @@ const Library = (props: {
             title="HOME"
             titleStyle={{ fontWeight: "700" }}
             containerStyle={{
-              width: 200,
+              width: 170,
             }}
             buttonStyle={{
               backgroundColor: "#5a9ae6",

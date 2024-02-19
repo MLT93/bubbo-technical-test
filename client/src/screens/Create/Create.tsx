@@ -1,5 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, Alert, TouchableOpacity, Modal } from "react-native";
+import {
+  View,
+  Text,
+  Alert,
+  TouchableOpacity,
+  Modal,
+  Dimensions,
+} from "react-native";
 import { appFirebase } from "../../../credentials.js";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { styles } from "../../../styles/styles";
@@ -10,7 +17,10 @@ import { Button } from "@rneui/base";
 import { useNavigation } from "@react-navigation/native";
 import { InputForDoc } from "../../../utils/utils.js";
 
+// Iniciar la base de datos
 const db = getFirestore(appFirebase);
+// Obtener las dimensiones de la pantalla que se esté utilizando
+const { width, height } = Dimensions.get("window");
 
 const Create = (props: {
   navigation: { navigate: (arg0: string) => void };
@@ -23,7 +33,7 @@ const Create = (props: {
     author: "",
     genre: "",
     publication_date: "",
-  }
+  };
   const [book, setBook] = useState(document);
   const handleInputOnChangeText = (name: string, value: string) =>
     setBook({ ...book, [name]: value });
@@ -120,7 +130,7 @@ const Create = (props: {
   // JSX.Element
   return (
     <>
-      <View style={styles.containerBetween}>
+      <View style={[styles.containerBetween]}>
         <Text style={styles.titleText}>AÑADE TU LIBRO</Text>
         {savingBook && (
           <Modal animationType="fade" transparent={false}>
@@ -201,7 +211,7 @@ const Create = (props: {
                   title="SELECCIONAR"
                   titleStyle={{ fontWeight: "700" }}
                   containerStyle={{
-                    width: 200,
+                    width: 170,
                   }}
                   buttonStyle={{
                     backgroundColor: "#5a9ae6",
@@ -230,7 +240,7 @@ const Create = (props: {
               disabled={isDisabled}
               titleStyle={{ fontWeight: "700" }}
               containerStyle={{
-                width: 200,
+                width: 170,
               }}
               buttonStyle={{
                 backgroundColor: "#007900",
@@ -255,7 +265,7 @@ const Create = (props: {
               title="RESTABLECER"
               titleStyle={{ fontWeight: "700" }}
               containerStyle={{
-                width: 200,
+                width: 170,
               }}
               buttonStyle={{
                 backgroundColor: "#5a9ae6",
@@ -278,7 +288,7 @@ const Create = (props: {
             title="VOLVER"
             titleStyle={{ fontWeight: "700" }}
             containerStyle={{
-              width: 200,
+              width: 170,
             }}
             buttonStyle={{
               backgroundColor: "#5a9ae6",

@@ -7,13 +7,16 @@ import {
   getFirestore,
 } from "firebase/firestore";
 import { appFirebase } from "../../../credentials";
-import { View } from "react-native";
+import { View, Dimensions } from "react-native";
 import { Button, Text } from "@rneui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "../../../styles/styles";
 import { InputForDoc } from "../../../utils/utils";
 
+// Iniciar la base de datos
 const db = getFirestore(appFirebase);
+// Obtener las dimensiones de la pantalla que se esté utilizando
+const { width, height } = Dimensions.get("window");
 
 const Details = ({ route }: { route: any }) => {
   // Hook de navegación entre componentes anidados sin necesidad de pasar la prop.navigation.navigate() a través de la jerarquía de componentes
@@ -61,7 +64,7 @@ const Details = ({ route }: { route: any }) => {
   // JSX.Element
   return (
     <>
-      <View style={styles.containerBetween}>
+      <View style={[styles.containerBetween]}>
         <Text style={styles.titleText}>DETALLES</Text>
         {error && (
           <View style={styles.containerCenter}>
@@ -82,7 +85,7 @@ const Details = ({ route }: { route: any }) => {
               title="MODIFICAR"
               titleStyle={{ fontWeight: "700" }}
               containerStyle={{
-                width: 200,
+                width: 170,
               }}
               buttonStyle={{
                 backgroundColor: "#5f009e",
@@ -104,7 +107,7 @@ const Details = ({ route }: { route: any }) => {
               title="BORRAR"
               titleStyle={{ fontWeight: "700" }}
               containerStyle={{
-                width: 200,
+                width: 170,
               }}
               buttonStyle={{
                 backgroundColor: "#bb1717",
@@ -131,7 +134,7 @@ const Details = ({ route }: { route: any }) => {
             title="VOLVER"
             titleStyle={{ fontWeight: "700" }}
             containerStyle={{
-              width: 200,
+              width: 170,
             }}
             buttonStyle={{
               backgroundColor: "#5a9ae6",

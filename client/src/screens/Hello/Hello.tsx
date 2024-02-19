@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "../../../styles/styles";
+
+// Obtener las dimensiones de la pantalla que se esté utilizando
+const { width, height } = Dimensions.get('window');
 
 const Hello = () => {
   const navigation = useNavigation();
@@ -23,7 +26,7 @@ const Hello = () => {
   };
 
   return (
-    <View style={styles.containerCenter}>
+    <View style={[styles.containerCenter]}>
       <Text style={styles.titleText}>Welcome to Bubbo's library</Text>
       <View style={styles.containerCenter}>
         <View style={styles.containerCenterRow}>
