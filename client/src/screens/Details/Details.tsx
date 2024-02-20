@@ -53,6 +53,8 @@ const Details = ({ route }: { route: any }) => {
       navigation.navigate("HOME" as never);
     } catch (error) {
       console.error("Can not remove the document:", error);
+    } finally {
+      navigation.goBack();
     }
   };
   // Modificar el documento
@@ -77,6 +79,8 @@ const Details = ({ route }: { route: any }) => {
       console.log("Document successfully updated!", docRef.id);
     } catch (error) {
       console.error(error);
+    } finally {
+      handleToggleModal();
     }
   };
   // Focus sobre el primer input del formulario
@@ -114,11 +118,28 @@ const Details = ({ route }: { route: any }) => {
     }
   }, [modifyBook.title, modifyBook.author, modifyBook.genre]);
   // Confirmaciones
-  const confirmationAlert = () => {
+  const confirmationAlertUpdateDoc = () => {
     // Alert.alert("title", "text", [options])
-    Alert.alert("Confirmación", "Estás seguro?", [
+    Alert.alert("Modificar Libro", "Estás seguro?", [
+      // text: "el texto", style: "estilo del texto", onPress: () => {función al apretar}
       { text: "Si", style: "default", onPress: () => handleUpdateDoc() },
-      { text: "Cancelar", style: "cancel", onPress: () => console.log(false) },
+      { text: "No", style: "cancel", onPress: () => console.log(false) },
+    ]);
+  };
+  const confirmationAlertDeleteDoc = () => {
+    // Alert.alert("title", "text", [options])
+    Alert.alert("Eliminar Libro", "Estás seguro?", [
+      // text: "el texto", style: "estilo del texto", onPress: () => {función al apretar}
+      {
+        text: "Eliminar",
+        style: "destructive",
+        onPress: () => handleRemoveDoc(),
+      },
+      {
+        text: "Cancelar",
+        style: "cancel",
+        onPress: () => console.log(false),
+      },
     ]);
   };
   // JSX.Element
@@ -206,10 +227,7 @@ const Details = ({ route }: { route: any }) => {
                     height: 1.5,
                   },
                 }}
-                onPress={() => {
-                  confirmationAlert();
-                  handleToggleModal();
-                }}
+                onPress={() => confirmationAlertUpdateDoc()}
               />
               <Button
                 title="CANCELAR"
@@ -283,11 +301,7 @@ const Details = ({ route }: { route: any }) => {
                   height: 1.5,
                 },
               }}
-              onPress={() => {
-                handleRemoveDoc();
-                navigation.goBack();
-                navigation.navigate("HOME" as never);
-              }}
+              onPress={() => confirmationAlertDeleteDoc()}
             />
           </View>
           <Button
