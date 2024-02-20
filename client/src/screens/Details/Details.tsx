@@ -118,7 +118,7 @@ const Details = ({ route }: { route: any }) => {
     // Alert.alert("title", "text", [options])
     Alert.alert("Confirmación", "Estás seguro?", [
       { text: "Si", style: "default", onPress: () => handleUpdateDoc() },
-      { text: "No", style: "cancel", onPress: () => console.log(false) },
+      { text: "Cancelar", style: "cancel", onPress: () => console.log(false) },
     ]);
   };
   // JSX.Element
