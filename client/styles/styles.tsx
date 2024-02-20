@@ -6,21 +6,29 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  containerCenter: {
+  container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
-  containerCenterRow: {
-    flexDirection: "row",
+  containerCenter: {
     alignItems: "center",
     justifyContent: "center",
+    margin: 1,
+    padding: 10,
+  },
+  containerCenterRow: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
   },
   containerFlatListCenter: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 10,
+    width: "90%",
   },
   containerCenterEnd: {
     alignItems: "center",
@@ -30,8 +38,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     margin: 20,
-    backgroundColor: "#080516",
-    shadowColor: "#000000",
+    backgroundColor: "#13117a",
+    shadowColor: "#7a93a550",
     shadowOffset: {
       width: 0,
       height: 3,
@@ -57,17 +65,18 @@ const styles = StyleSheet.create({
     backgroundColor: "blue",
     borderRadius: 10,
   },
-  buttonStretch: {
+  containerStretch: {
     width: "100%",
     textAlign: "center",
     alignItems: "center",
     padding: 15,
-    backgroundColor: "blue",
+    backgroundColor: "#13117a",
   },
   buttonText: {
     color: "white",
   },
   titleText: {
+    color: "#5a9ae6",
     fontSize: 21,
     fontWeight: "bold",
     textDecorationLine: "underline",
@@ -80,9 +89,6 @@ const styles = StyleSheet.create({
   normalText: {
     fontSize: 17,
     fontWeight: "normal",
-  },
-  flatListText: {
-    gap: 13,
   },
   placeholderContainer: {
     appearance: "none",
@@ -101,12 +107,11 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     width: "100%",
-    fontFamily:
-      "'Roboto', 'Helvetica', 'Arial', sans-serif, 'Segoe UI', BlinkMacSystemFont",
     color: "#86939e",
     fontSize: 18,
     flex: 1,
     minHeight: 40,
+    paddingTop: 10,
   },
   placeholderBottom: {
     borderTopWidth: 1,

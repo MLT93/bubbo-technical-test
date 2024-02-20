@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   Modal,
   Dimensions,
+  ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { appFirebase } from "../../../credentials.js";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
@@ -61,11 +63,9 @@ const Create = (props: {
     setIsDisabled(!areFieldsFilled);
   }, [book, setIsDisabled]);
   // Llamada a la API Firestore y creación de un nuevo documento
-  const [savingBook, setSavingBook] = useState(false);
   const [error, setError] = useState(null);
   const handleSubmitSavedBook = async () => {
     try {
-      setSavingBook(true);
       const docAdded = await addDoc(collection(db, "library"), {
         ...book,
       });
@@ -82,7 +82,6 @@ const Create = (props: {
       }
       setError(error);
     } finally {
-      setSavingBook(false);
       Alert.alert("Your book has been saved!");
       props.navigation.navigate("HOME");
     }
@@ -130,108 +129,127 @@ const Create = (props: {
   // JSX.Element
   return (
     <>
-      <View style={[styles.containerBetween]}>
+      <View style={[styles.containerBetween, { backgroundColor: "#7a93a550" }]}>
         <Text style={styles.titleText}>AÑADE TU LIBRO</Text>
-        {savingBook && (
-          <Modal animationType="fade" transparent={false}>
-            <View style={styles.containerCenter}>
-              <Text style={styles.subtitleText}>Guardando tu libro...</Text>
-            </View>
-          </Modal>
-        )}
         {error && (
-          <View style={styles.containerCenter}>
+          <View style={styles.containerCenterEnd}>
             <Text style={styles.subtitleText}>{`${error}`}</Text>
           </View>
         )}
-        <View style={{}}>
-          <Input
-            placeholder="Titulo"
-            errorStyle={{ color: "red" }}
-            errorMessage={titleError}
-            ref={inputRef}
-            onChangeText={(value) => handleInputOnChangeText("title", value)}
-            value={book.title}
-          />
+        <View style={{ justifyContent: "center", width: "90%" }}>
+          <ScrollView>
+            <Input
+              placeholder="Titulo"
+              errorStyle={{ color: "red" }}
+              errorMessage={titleError}
+              ref={inputRef}
+              onChangeText={(value) => handleInputOnChangeText("title", value)}
+              value={book.title}
+            />
 
-          <Input
-            placeholder="Autor"
-            errorStyle={{ color: "red" }}
-            errorMessage={authorError}
-            onChangeText={(value) => handleInputOnChangeText("author", value)}
-            value={book.author}
-          />
+            <Input
+              placeholder="Autor"
+              errorStyle={{ color: "red" }}
+              errorMessage={authorError}
+              onChangeText={(value) => handleInputOnChangeText("author", value)}
+              value={book.author}
+            />
 
-          <Input
-            placeholder="Género"
-            errorStyle={{ color: "red" }}
-            errorMessage={genreError}
-            onChangeText={(value) => handleInputOnChangeText("genre", value)}
-            value={book.genre}
-          />
+            <Input
+              placeholder="Género"
+              errorStyle={{ color: "red" }}
+              errorMessage={genreError}
+              onChangeText={(value) => handleInputOnChangeText("genre", value)}
+              value={book.genre}
+            />
 
-          <View style={styles.placeholderContainer}>
-            <TouchableOpacity onPress={handleToggle}>
-              <Text
-                style={{
-                  ...styles.placeholderText,
-                  color:
-                    placeholderDate !== "Fecha de publicación"
-                      ? "black"
-                      : "#86939e",
-                }}
-              >
-                {placeholderDate}
-              </Text>
-            </TouchableOpacity>
-            <View style={styles.placeholderBottom}></View>
-            <Text style={styles.placeholderBottomText}></Text>
-          </View>
-          <Modal animationType="fade" transparent={true} visible={visible}>
-            <View style={styles.containerCenter}>
-              <View style={styles.containerModal}>
-                <DatePicker
-                  mode="calendar"
-                  maximumDate={initialDate}
-                  onDateChange={(value) =>
-                    handleInputOnChangeDate("publication_date", value)
-                  }
-                  selected={book.publication_date}
-                  options={{
-                    backgroundColor: "#080516",
-                    textHeaderColor: "#469ab6",
-                    textDefaultColor: "white",
-                    selectedTextColor: "white",
-                    mainColor: "#469ab6",
-                    textSecondaryColor: "white",
-                    borderColor: "#7a92a51a",
-                  }}
-                />
-                <Button
-                  title="SELECCIONAR"
-                  titleStyle={{ fontWeight: "700" }}
-                  containerStyle={{
-                    width: 170,
-                  }}
-                  buttonStyle={{
-                    backgroundColor: "#5a9ae6",
-                    borderColor: "transparent",
-                    borderWidth: 0,
-                    borderRadius: 30,
-                    margin: 10,
-                    shadowColor: "#86939e",
-                    shadowOpacity: 3,
-                    shadowRadius: 4,
-                    shadowOffset: {
-                      width: 0,
-                      height: 1.5,
+            <View style={[styles.placeholderContainer]}>
+              <TouchableOpacity onPress={handleToggle}>
+                <Text
+                  style={[
+                    styles.placeholderText,
+                    {
+                      color:
+                        placeholderDate !== "Fecha de publicación"
+                          ? "black"
+                          : "#86939e",
                     },
-                  }}
-                  onPress={handleToggle}
-                />
-              </View>
+                  ]}
+                >
+                  {placeholderDate}
+                </Text>
+              </TouchableOpacity>
+              <View style={styles.placeholderBottom}></View>
+              <Text style={styles.placeholderBottomText}></Text>
             </View>
-          </Modal>
+            <Modal animationType="fade" transparent={true} visible={visible}>
+              <View style={styles.container}>
+                <View style={styles.containerModal}>
+                  <DatePicker
+                    mode="calendar"
+                    maximumDate={initialDate}
+                    onDateChange={(value) =>
+                      handleInputOnChangeDate("publication_date", value)
+                    }
+                    selected={book.publication_date}
+                    options={{
+                      backgroundColor: "#13117a",
+                      textHeaderColor: "#469ab6",
+                      textDefaultColor: "white",
+                      selectedTextColor: "white",
+                      mainColor: "#469ab6",
+                      textSecondaryColor: "white",
+                      borderColor: "#7a92a550",
+                    }}
+                  />
+                  <Button
+                    title="SELECCIONAR"
+                    titleStyle={{ fontWeight: "700" }}
+                    containerStyle={{
+                      width: 170,
+                    }}
+                    buttonStyle={{
+                      backgroundColor: "#5a9ae6",
+                      borderColor: "transparent",
+                      borderWidth: 0,
+                      borderRadius: 30,
+                      margin: 10,
+                      shadowColor: "#86939e",
+                      shadowOpacity: 3,
+                      shadowRadius: 4,
+                      shadowOffset: {
+                        width: 0,
+                        height: 1.5,
+                      },
+                    }}
+                    onPress={handleToggle}
+                  />
+                  <Button
+                    title="CANCELAR"
+                    titleStyle={{ fontWeight: "700" }}
+                    containerStyle={{
+                      width: 170,
+                    }}
+                    buttonStyle={{
+                      backgroundColor: "#5a9ae6",
+                      borderColor: "transparent",
+                      borderWidth: 0,
+                      borderRadius: 30,
+                      margin: 10,
+                      shadowColor: "#86939e",
+                      shadowOpacity: 3,
+                      shadowRadius: 4,
+                      shadowOffset: {
+                        width: 0,
+                        height: 1.5,
+                      },
+                    }}
+                    onPress={handleToggle}
+                  />
+                </View>
+              </View>
+            </Modal>
+          </ScrollView>
         </View>
         <View style={styles.containerCenterEnd}>
           <View style={styles.containerCenterRow}>

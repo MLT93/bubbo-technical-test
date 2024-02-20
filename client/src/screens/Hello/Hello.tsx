@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Text, TouchableOpacity, View, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "../../../styles/styles";
+import { Button } from "@rneui/base";
 
 // Obtener las dimensiones de la pantalla que se esté utilizando
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 
 const Hello = () => {
   const navigation = useNavigation();
@@ -26,32 +27,89 @@ const Hello = () => {
   };
 
   return (
-    <View style={[styles.containerCenter]}>
-      <Text style={styles.titleText}>Welcome to Bubbo's library</Text>
+    <View style={[styles.containerBetween, { backgroundColor: "#7a93a550" }]}>
+      <Text style={styles.titleText}>WELCOME TO BUBBO LIBRARY</Text>
       <View style={styles.containerCenter}>
         <View style={styles.containerCenterRow}>
-          <TouchableOpacity style={styles.button} onPress={onIncrement}>
-            <Text style={styles.buttonText}>Yeah! Thumb up!</Text>
-          </TouchableOpacity>
           <View style={styles.containerCenter}>
-            <Text style={styles.normalText}>👍</Text>
-            <Text style={styles.normalText}>{like}</Text>
+            <Button
+              title={`Nice!`}
+              titleStyle={{ fontWeight: "700" }}
+              containerStyle={{
+                width: 170,
+              }}
+              buttonStyle={{
+                backgroundColor: "#5a9ae6",
+                borderColor: "transparent",
+                borderWidth: 0,
+                borderRadius: 30,
+                margin: 10,
+                shadowColor: "#000000",
+                shadowOpacity: 3,
+                shadowRadius: 4,
+                shadowOffset: {
+                  width: 0,
+                  height: 1.5,
+                },
+              }}
+              onPress={() => onIncrement()}
+            />
           </View>
+          <Text style={[styles.normalText, { fontSize: 30 }]}>👍 {like}</Text>
         </View>
         <View style={styles.containerCenterRow}>
-          <TouchableOpacity style={styles.button} onPress={onDecrement}>
-            <Text style={styles.buttonText}>I don't like</Text>
-          </TouchableOpacity>
           <View style={styles.containerCenter}>
-            <Text style={styles.normalText}>👎</Text>
-            <Text style={styles.normalText}>{unlike}</Text>
+            <Button
+              title={`Don't like!`}
+              titleStyle={{ fontWeight: "700" }}
+              containerStyle={{
+                width: 170,
+              }}
+              buttonStyle={{
+                backgroundColor: "#5a9ae6",
+                borderColor: "transparent",
+                borderWidth: 0,
+                borderRadius: 30,
+                margin: 10,
+                shadowColor: "#000000",
+                shadowOpacity: 3,
+                shadowRadius: 4,
+                shadowOffset: {
+                  width: 0,
+                  height: 1.5,
+                },
+              }}
+              onPress={() => onDecrement()}
+            />
           </View>
+          <Text style={[styles.normalText, { fontSize: 30 }]}>👎 {unlike}</Text>
         </View>
       </View>
-      <View style={styles.buttonStretch}>
-        <TouchableOpacity onPress={() => navigation.navigate("CRUD" as never)}>
-          <Text style={styles.buttonText}>Going on! {showThumbUp}</Text>
-        </TouchableOpacity>
+      <View style={[styles.containerCenterEnd]}>
+        <View style={styles.containerCenterRow}>
+          <Button
+            title={`GOING ON!`}
+            titleStyle={{ fontWeight: "900" }}
+            containerStyle={{
+              width: 300,
+            }}
+            buttonStyle={{
+              backgroundColor: "#5a9ae6",
+              borderColor: "transparent",
+              borderWidth: 0,
+              borderRadius: 30,
+              margin: 10,
+              shadowColor: "#000000",
+              shadowOpacity: 3,
+              shadowRadius: 4,
+              shadowOffset: {
+                width: 0,
+                height: 1.5,
+              },
+            }}
+            onPress={() => navigation.navigate("CRUD" as never)}
+          />
+        </View>
       </View>
     </View>
   );

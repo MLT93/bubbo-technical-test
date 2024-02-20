@@ -5,7 +5,7 @@ import {
   FlatList,
   Pressable,
   ActivityIndicator,
-  Dimensions
+  Dimensions,
 } from "react-native";
 import { appFirebase } from "../../../credentials.js";
 import {
@@ -22,7 +22,7 @@ import { Button } from "@rneui/base";
 // Iniciar la base de datos
 const db = getFirestore(appFirebase);
 // Obtener las dimensiones de la pantalla que se esté utilizando
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 
 const Library = (props: {
   navigation: {
@@ -103,21 +103,21 @@ const Library = (props: {
   // JSX.Element
   return (
     <>
-      <View style={[styles.containerBetween]}>
+      <View style={[styles.containerBetween, { backgroundColor: "#7a93a550" }]}>
         <Text style={styles.titleText}>LISTA DE LIBROS</Text>
         {loading && (
-          <View style={styles.containerCenter}>
-            <ActivityIndicator size={"large"} color={"#86939e"} />
+          <View style={styles.container}>
+            <ActivityIndicator size={"large"} color={"#5a9ae6"} />
+            <Text style={styles.subtitleText}>Cargando...</Text>
           </View>
         )}
         {error && (
-          <View style={styles.containerCenter}>
+          <View style={styles.containerCenterEnd}>
             <Text style={styles.subtitleText}>{`${error}`}</Text>
           </View>
         )}
         <View style={styles.containerFlatListCenter}>
           <FlatList
-            style={styles.flatListText}
             data={data}
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) =>
@@ -129,7 +129,7 @@ const Library = (props: {
                     })
                   }
                 >
-                  <Text>
+                  <Text style={{ padding: 7 }}>
                     {index}. {item.doc.title.toLocaleUpperCase()}
                   </Text>
                 </Pressable>
@@ -139,7 +139,7 @@ const Library = (props: {
         </View>
         <View style={styles.containerCenterEnd}>
           <Button
-            title="AGREGA"
+            title="AGREGAR"
             titleStyle={{ fontWeight: "700" }}
             containerStyle={{
               width: 170,
