@@ -7,7 +7,6 @@ import {
   Modal,
   Dimensions,
   ScrollView,
-  ActivityIndicator,
 } from "react-native";
 import { appFirebase } from "../../../credentials.js";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
@@ -73,6 +72,7 @@ const Create = (props: {
         throw new Error("You got a problem adding book");
       }
       console.log("Document written with ID:", docAdded.id);
+      Alert.alert("Has creado un libro!");
     } catch (error: any) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -82,7 +82,6 @@ const Create = (props: {
       }
       setError(error);
     } finally {
-      Alert.alert("Your book has been saved!");
       props.navigation.navigate("HOME");
     }
   };

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, TouchableOpacity, View, Dimensions } from "react-native";
+import { Text, View, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "../../../styles/styles";
 import { Button } from "@rneui/base";
@@ -12,7 +12,7 @@ const Hello = () => {
 
   const [like, setLike] = useState(0);
   const [unlike, setUnlike] = useState(0);
-  const [showThumbUp, setShowThumbUp] = useState(true);
+  const [, setShowThumbUp] = useState(true);
 
   const onIncrement = () => {
     setLike(like + 1);

@@ -3,9 +3,9 @@ import {
   View,
   Text,
   FlatList,
-  Pressable,
   ActivityIndicator,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import { appFirebase } from "../../../credentials.js";
 import {
@@ -122,17 +122,18 @@ const Library = (props: {
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) =>
               item && (
-                <Pressable
+                <TouchableOpacity
+                  style={{ padding: 7 }}
                   onPress={() =>
                     props.navigation.navigate("Details", {
                       itemId: item.id,
                     })
                   }
                 >
-                  <Text style={{ padding: 7 }}>
+                  <Text>
                     {index}. {item.doc.title.toLocaleUpperCase()}
                   </Text>
-                </Pressable>
+                </TouchableOpacity>
               )
             }
           />

@@ -117,7 +117,7 @@ const Details = ({ route }: { route: any }) => {
   const confirmationAlert = () => {
     // Alert.alert("title", "text", [options])
     Alert.alert("Confirmación", "Estás seguro?", [
-      { text: "Si", style: "default", onPress: () => console.log(true) },
+      { text: "Si", style: "default", onPress: () => handleUpdateDoc() },
       { text: "No", style: "cancel", onPress: () => console.log(false) },
     ]);
   };
@@ -187,7 +187,7 @@ const Details = ({ route }: { route: any }) => {
                 value={modifyBook.publication_date}
               />
               <Button
-                title="MODIFICAR"
+                title="ENVIAR"
                 titleStyle={{ fontWeight: "700" }}
                 containerStyle={{
                   width: 170,
@@ -208,7 +208,6 @@ const Details = ({ route }: { route: any }) => {
                 }}
                 onPress={() => {
                   confirmationAlert();
-                  handleUpdateDoc();
                   handleToggleModal();
                 }}
               />
