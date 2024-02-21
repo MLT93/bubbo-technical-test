@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 
-
 const styles = StyleSheet.create({
   /* backgroundStyle: {
     flex: 1,
@@ -46,6 +45,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-end",
   },
+  containerShadow: {
+    justifyContent: "flex-start",
+    alignItems: "center",
+    margin: 20,
+    padding: 17,
+    backgroundColor: "#ffffff",
+    shadowColor: "#7a93a550",
+    shadowOpacity: 3,
+    shadowRadius: 4,
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    borderRadius: 20,
+    width: "90%",
+    height: "auto",
+  },
   containerModal: {
     justifyContent: "center",
     alignItems: "center",
@@ -89,9 +105,9 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: "#5a9ae6",
-    fontSize: 21,
+    fontSize: 25,
     fontWeight: "bold",
-    textDecorationLine: "underline",
+    /* textDecorationLine: "underline", */
     marginTop: 16,
   },
   subtitleText: {

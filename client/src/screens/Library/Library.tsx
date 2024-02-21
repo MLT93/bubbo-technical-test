@@ -119,14 +119,31 @@ const Library = (props: {
             <Text style={styles.subtitleText}>{`${error}`}</Text>
           </View>
         )}
-        <View style={styles.containerFlatListCenter}>
+        <View style={[styles.containerFlatListCenter, styles.containerShadow]}>
           <FlatList
-            data={data}
+            style={{ width: "90%" }}
+            data={data.sort((a: any, b: any) => {
+              const titleA = a.doc.title.toLowerCase();
+              const titleB = b.doc.title.toLowerCase();
+              if (titleA < titleB) {
+                return -1;
+              }
+              if (titleA > titleB) {
+                return 1;
+              }
+              return 0;
+            })}
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) =>
               item && (
                 <TouchableOpacity
-                  style={{ padding: 7 }}
+                  style={{
+                    paddingTop: 15,
+                    paddingBottom: 5,
+                    width: "100%",
+                    borderBottomWidth: 1,
+                    borderBottomColor: "",
+                  }}
                   onPress={() =>
                     props.navigation.navigate("Details", {
                       itemId: item.id,

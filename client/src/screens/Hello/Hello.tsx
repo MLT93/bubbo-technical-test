@@ -28,12 +28,12 @@ const Hello = () => {
 
   return (
     <View style={[styles.containerBetween, { backgroundColor: "#7a93a550" }]}>
-      <Text style={styles.titleText}>WELCOME TO BUBBO LIBRARY</Text>
+      <Text style={styles.titleText}>LA LIBRERÍA DE BUBBO</Text>
       <View style={styles.containerCenter}>
         <View style={styles.containerCenterRow}>
           <View style={styles.containerCenter}>
             <Button
-              title={`Nice!`}
+              title={`Me gusta!`}
               titleStyle={{ fontWeight: "700" }}
               containerStyle={{
                 width: 170,
@@ -60,7 +60,7 @@ const Hello = () => {
         <View style={styles.containerCenterRow}>
           <View style={styles.containerCenter}>
             <Button
-              title={`Don't like!`}
+              title={`No me gusta!`}
               titleStyle={{ fontWeight: "700" }}
               containerStyle={{
                 width: 170,
@@ -88,7 +88,7 @@ const Hello = () => {
       <View style={[styles.containerCenterEnd]}>
         <View style={styles.containerCenterRow}>
           <Button
-            title={`GOING ON!`}
+            title={`VAMOS ALLÁ!`}
             titleStyle={{ fontWeight: "900" }}
             containerStyle={{
               width: 300,

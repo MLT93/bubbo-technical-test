@@ -153,11 +153,64 @@ const Details = ({ route }: { route: any }) => {
           </View>
         )}
         {bookDataById && (
-          <View style={styles.containerCenter}>
-            <Text>Title: {bookDataById.title}</Text>
-            <Text>Date: {bookDataById.publication_date}</Text>
-            <Text>Author: {bookDataById.author}</Text>
-            <Text>Genre: {bookDataById.genre}</Text>
+          <View style={styles.containerShadow}>
+            <View
+              style={[
+                styles.containerCenterRow,
+                { padding: 7, alignItems: "baseline" },
+              ]}
+            >
+              <Text
+                style={{ fontWeight: "bold", fontSize: 16, paddingRight: 5 }}
+              >
+                TÍTULO:
+              </Text>
+              <Text style={{ fontSize: 16 }}>{bookDataById.title}</Text>
+            </View>
+
+            <View
+              style={[
+                styles.containerCenterRow,
+                { padding: 7, alignItems: "baseline" },
+              ]}
+            >
+              <Text
+                style={{ fontWeight: "bold", fontSize: 16, paddingRight: 5 }}
+              >
+                FECHA:
+              </Text>
+              <Text style={{ fontSize: 16 }}>
+                {bookDataById.publication_date}
+              </Text>
+            </View>
+
+            <View
+              style={[
+                styles.containerCenterRow,
+                { padding: 7, alignItems: "baseline" },
+              ]}
+            >
+              <Text
+                style={{ fontWeight: "bold", fontSize: 16, paddingRight: 5 }}
+              >
+                AUTOR:
+              </Text>
+              <Text style={{ fontSize: 16 }}>{bookDataById.author}</Text>
+            </View>
+
+            <View
+              style={[
+                styles.containerCenterRow,
+                { padding: 7, alignItems: "baseline" },
+              ]}
+            >
+              <Text
+                style={{ fontWeight: "bold", fontSize: 16, paddingRight: 5 }}
+              >
+                GÉNERO:
+              </Text>
+              <Text style={{ fontSize: 16 }}>{bookDataById.genre}</Text>
+            </View>
           </View>
         )}
         <Modal animationType="fade" transparent={true} visible={openModal}>
@@ -172,7 +225,9 @@ const Details = ({ route }: { route: any }) => {
                 onChangeText={(value) =>
                   handleInputOnChangeText("title", value)
                 }
-                value={modifyBook.title}
+                value={`${
+                  bookDataById ? bookDataById.title : modifyBook.title
+                }`}
               />
 
               <Input
@@ -183,7 +238,9 @@ const Details = ({ route }: { route: any }) => {
                 onChangeText={(value) =>
                   handleInputOnChangeText("author", value)
                 }
-                value={modifyBook.author}
+                value={`${
+                  bookDataById ? bookDataById.author : modifyBook.author
+                }`}
               />
 
               <Input
@@ -194,7 +251,9 @@ const Details = ({ route }: { route: any }) => {
                 onChangeText={(value) =>
                   handleInputOnChangeText("genre", value)
                 }
-                value={modifyBook.genre}
+                value={`${
+                  bookDataById ? bookDataById.genre : modifyBook.genre
+                }`}
               />
 
               <Input
@@ -205,7 +264,11 @@ const Details = ({ route }: { route: any }) => {
                 onChangeText={(value) =>
                   handleInputOnChangeText("publication_date", value)
                 }
-                value={modifyBook.publication_date}
+                value={`${
+                  bookDataById
+                    ? bookDataById.publication_date
+                    : modifyBook.publication_date
+                }`}
               />
               <Button
                 title="ENVIAR"

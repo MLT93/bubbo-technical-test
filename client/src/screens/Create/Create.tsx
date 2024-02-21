@@ -138,8 +138,8 @@ const Create = (props: {
             <Text style={styles.subtitleText}>{`${error}`}</Text>
           </View>
         )}
-        <View style={{ justifyContent: "center", width: "90%" }}>
-          <ScrollView>
+        <View style={styles.containerShadow}>
+          <ScrollView style={{ width: "90%" }}>
             <Input
               placeholder="Titulo"
               errorStyle={{ color: "red" }}
