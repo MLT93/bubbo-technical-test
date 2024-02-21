@@ -109,18 +109,21 @@ const Create = (props: {
     if (book.title.length >= 71) {
       console.error(err.title);
       setTitleError(`${err.title.message}`);
+      setIsDisabled(true);
     } else {
       setTitleError(``);
     }
     if (book.author.length >= 31) {
       console.error(err.author);
       setAuthorError(`${err.author.message}`);
+      setIsDisabled(true);
     } else {
       setAuthorError(``);
     }
     if (book.genre.length >= 16) {
       console.error(err.genre);
       setGenreError(`${err.genre.message}`);
+      setIsDisabled(true);
     } else {
       setGenreError(``);
     }
