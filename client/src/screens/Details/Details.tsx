@@ -58,11 +58,11 @@ const Details = ({ route }: { route: any }) => {
     }
   };
   // Modificar el documento
-  const [modifyBook, setModifyBook] = useState<InputForDoc>({
-    title: "",
-    author: "",
-    genre: "",
-    publication_date: "",
+  const [modifyBook, setModifyBook] = useState<InputForDoc | DocumentData>({
+    title: ``,
+    author: ``,
+    genre: ``,
+    publication_date: ``,
   });
   const handleInputOnChangeText = (name: string, value: string) =>
     setModifyBook({ ...modifyBook, [name]: value });
@@ -71,10 +71,12 @@ const Details = ({ route }: { route: any }) => {
   const handleUpdateDoc = async () => {
     try {
       await updateDoc(docRef, {
-        title: modifyBook.title,
-        author: modifyBook.author,
-        genre: modifyBook.genre,
-        publication_date: modifyBook.publication_date,
+        title: modifyBook ? modifyBook.title : bookDataById?.title,
+        author: modifyBook ? modifyBook.author : bookDataById?.author,
+        genre: modifyBook ? modifyBook.genre : bookDataById?.genre,
+        publication_date: modifyBook
+          ? modifyBook.publication_date
+          : bookDataById?.publication_date,
       });
       console.log("Document successfully updated!", docRef.id);
     } catch (error) {
@@ -225,9 +227,7 @@ const Details = ({ route }: { route: any }) => {
                 onChangeText={(value) =>
                   handleInputOnChangeText("title", value)
                 }
-                value={`${
-                  bookDataById ? bookDataById.title : modifyBook.title
-                }`}
+                value={modifyBook?.title}
               />
 
               <Input
@@ -238,9 +238,7 @@ const Details = ({ route }: { route: any }) => {
                 onChangeText={(value) =>
                   handleInputOnChangeText("author", value)
                 }
-                value={`${
-                  bookDataById ? bookDataById.author : modifyBook.author
-                }`}
+                value={modifyBook?.author}
               />
 
               <Input
@@ -251,9 +249,7 @@ const Details = ({ route }: { route: any }) => {
                 onChangeText={(value) =>
                   handleInputOnChangeText("genre", value)
                 }
-                value={`${
-                  bookDataById ? bookDataById.genre : modifyBook.genre
-                }`}
+                value={modifyBook?.genre}
               />
 
               <Input
@@ -264,11 +260,7 @@ const Details = ({ route }: { route: any }) => {
                 onChangeText={(value) =>
                   handleInputOnChangeText("publication_date", value)
                 }
-                value={`${
-                  bookDataById
-                    ? bookDataById.publication_date
-                    : modifyBook.publication_date
-                }`}
+                value={modifyBook?.publication_date}
               />
               <Button
                 title="ENVIAR"
