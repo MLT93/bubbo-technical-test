@@ -1,6 +1,18 @@
 import { StyleSheet } from "react-native";
 
+
 const styles = StyleSheet.create({
+  /* backgroundStyle: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: isModalOpen
+      ? isDarkMode
+        ? "#ffffff30"
+        : "gray"
+      : isDarkMode
+      ? "#000000"
+      : "#ffffff",
+  }, */
   containerBetween: {
     flex: 1,
     alignItems: "center",

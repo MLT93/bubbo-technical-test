@@ -43,6 +43,7 @@ const Library = (props: {
   useEffect(() => {
     (async () => {
       try {
+        // Set del loader antes de hacer la llamada a la base de datos
         setLoading(true);
         // Llamada sin actualizar lo que recibimos de la base de datos en el caso de que hubiese cambios (sin recargar la página)
         /**
@@ -107,8 +108,10 @@ const Library = (props: {
         <Text style={styles.titleText}>LISTA DE LIBROS</Text>
         {loading && (
           <View style={styles.container}>
+            <Text style={[styles.subtitleText, { paddingBottom: 7 }]}>
+              Cargando...
+            </Text>
             <ActivityIndicator size={"large"} color={"#5a9ae6"} />
-            <Text style={styles.subtitleText}>Cargando...</Text>
           </View>
         )}
         {error && (

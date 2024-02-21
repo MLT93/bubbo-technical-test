@@ -181,7 +181,7 @@ const Create = (props: {
               <View style={styles.placeholderBottom}></View>
               <Text style={styles.placeholderBottomText}></Text>
             </View>
-            <Modal animationType="fade" transparent={true} visible={visible}>
+            <Modal animationType={"fade"} transparent={true} visible={visible}>
               <View style={styles.container}>
                 <View style={styles.containerModal}>
                   <DatePicker
