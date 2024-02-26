@@ -21,8 +21,8 @@ const bookScheme = joi.object({
 
 const getAll = async (req: Request, res: Response) => {
   const books = await test_firebase.many(`SELECT * FROM books;`);
-  const querySnapshot = (await db.collection("library").get()).docs;
-  const firebaseData = querySnapshot.map((doc) => ({
+  const querySnapshot = await db.collection("library").get();
+  const firebaseData = querySnapshot.docs.map((doc) => ({
     book_id: doc.id,
     ...doc.data(),
   }));

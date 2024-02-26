@@ -93,6 +93,7 @@
   "devDependencies": {
     "@reactivex/rxjs": "^6.6.7",
     "@tsconfig/node18": "^1.0.3",
+    "@types/cors": "^2.8.17",
     "@types/express": "^4.17.14",
     "@types/morgan": "^1.9.3",
     "@types/multer": "^1.4.11",

@@ -6,11 +6,13 @@ import { logIn, signUp, logOut } from "./controllers/users.js";
 import { authorization } from "./authorization.js";
 import "./passport.js";
 import { create, deleteById, getAll, getOneById, updateById, } from "./controllers/books.js";
+import cors from "cors";
 // Starting server
 const app = express();
 // Middlewares
 app.use(morgan(`dev`));
 app.use(express.json());
+app.use(cors());
 // User authentication
 app.post("/postgres/users/login", logIn);
 app.post("/postgres/users/signup", signUp);

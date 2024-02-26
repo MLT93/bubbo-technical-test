@@ -88,6 +88,45 @@ const Library = (props: {
             console.log("Length of Object[]:", response.size);
           }
         );
+
+        const url = "http://localhost:3021/books";
+        const options = {
+          method: "GET",
+          headers: {
+            /**
+             * ToDo: Encontrar la autenticación correcta y modificar las reglas de la base de datos en Firebase para que no tenga acceso todo el mundo
+             */
+            Authorization: "OAuth 55c188a83546fc188e51576ba72836e0600e8b73",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          /* body: JSON.stringify({
+            /// Datos específicos de la solicitud. Por ejemplo: POST, PUT o DELETE
+          }), */
+        };
+        fetch(url, options)
+          .then(async (res) => {
+            if (!res.ok) {
+              throw new Error(`No se puede obtener la respuesta: ${res}`);
+            }
+
+            const response = await res.json();
+            console.log(response);
+            const data = JSON.parse(JSON.stringify(response.firebase));
+            const book = data.map((e: any) => {
+              return {
+                book_id: e.book_id,
+                title: e.title,
+                author: e.author,
+                genre: e.genre,
+                publication_date: e.publication_date,
+              };
+            });
+            console.log(book[0].title);
+          })
+          .catch((err) => console.error(err.message))
+          .finally(() => console.log("Proceso de llamada finalizado"));
+
         return () => {
           unsubscribeResponse();
         };
