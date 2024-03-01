@@ -18,7 +18,7 @@
     "@rneui/themed": "^4.0.0-rc.8",
     "@types/react-native-modern-datepicker": "^1.0.5",
     "axios": "^1.6.5",
-    "expo": "^49.0.22",
+    "expo": "49.0.22",
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "expo-system-ui": "~2.4.0",
