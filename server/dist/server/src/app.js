@@ -3,7 +3,7 @@ import "express-async-errors";
 import morgan from "morgan";
 import "dotenv/config";
 import { logIn, signUp, logOut } from "./controllers/users.js";
-import { authorization } from "./authorization.js";
+import { authorization } from "./authentication.js";
 import "./passport.js";
 import { create, deleteById, getAll, getOneById, updateById, } from "./controllers/books.js";
 import cors from "cors";

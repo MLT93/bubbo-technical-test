@@ -2,6 +2,7 @@
   "name": "bubbo-technical-test",
   "author": "Marcos Lambir torres",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "firebase-init-auth": "cd server/ && firebase login && firebase init",

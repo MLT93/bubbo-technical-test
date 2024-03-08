@@ -13,9 +13,9 @@ service cloud.firestore {
     // all client requests to your Firestore database will be denied until you Update
     // your rules
     match /{document=**} {
-      // allow read, write: if true;
+      allow read, write: if true;
       // allow read, write: if exists(/databases/$(database)/documents/usuarios/$(request.auth.uid)).database.isAdmin == true
-      allow read, write: if resource.data.isAdmin == true;
+      // allow read, write: if resource.data.isAdmin == true;
     }
   }
 }

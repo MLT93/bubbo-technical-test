@@ -1,12 +1,35 @@
 import { test_firebase } from "../database.js";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, } from "firebase/auth";
+/**
+ *
+ * ToDo: Crear una llamada POST y un GET para obtener las credenciales de acceso y realizar el signIn para poder utilizar la aplicación
+ *
+ */
+const auth = getAuth();
+let firePassword = "123123123";
+let fireEmail = "asd@123.com";
+const { API_KEY } = process.env;
 const logIn = async (req, res) => {
     const { username, password, email } = req.body;
-    const user = await test_firebase.one(`SELECT * FROM users WHERE username=$1`, [
-        username,
-        email,
-    ]);
+    const user = await test_firebase.one(`SELECT * FROM users WHERE username=$1`, [username, email]);
+    // SignUp Authentication with user created with API_KEY https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={API_KEY}
+    // Read this web to generate your user, password and idToken https://firebase.google.com/docs/reference/rest/auth/?hl=es-419#section-create-email-password
+    // Use Postman to make easy
+    createUserWithEmailAndPassword(auth, fireEmail, firePassword)
+        .then((userCredential) => {
+        const user = userCredential.user;
+        alert(`You are logged! \n\n ${user}`);
+        console.log(user);
+        // Firebase Sign Up
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
+    })
+        .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(`${errorCode}: ${errorMessage}`);
+    });
     if (user && user.password === password) {
         const payload = {
             user_id: user.id,
@@ -32,6 +55,19 @@ const logIn = async (req, res) => {
 const signUp = async (req, res) => {
     const { username, password, email } = req.body;
     const user = await test_firebase.oneOrNone(`SELECT * FROM users WHERE username=$1`, username);
+    // SignIn with email and password with API_KEY https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={API_KEY}
+    signInWithEmailAndPassword(auth, fireEmail, firePassword)
+        .then((userCredential) => {
+        const user = userCredential.user;
+        alert(`You are logged! \n\n ${user}`);
+        console.log(user);
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
+    })
+        .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(`${errorCode}: ${errorMessage}`);
+    });
     if (user) {
         res.status(409).json({ msg: `Username already exist` });
     }
@@ -43,7 +79,10 @@ const signUp = async (req, res) => {
 const logOut = async (req, res) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const user = req.user;
-    await test_firebase.none(`UPDATE users SET token=$2 WHERE user_id=$1`, [user?.id, null]);
+    await test_firebase.none(`UPDATE users SET token=$2 WHERE user_id=$1`, [
+        user?.id,
+        null,
+    ]);
     res.status(200).json({ msg: `Logout successful` });
 };
 export { logIn, signUp, logOut };
