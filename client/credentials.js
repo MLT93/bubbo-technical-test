@@ -5,12 +5,13 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
+  // API_KEY for generate token
   apiKey: "AIzaSyAjv_uUlf3Am-pxMklf_vR_vOf-rH6NcgY",
   authDomain: "bubbo-technical-test-8ca32.firebaseapp.com",
   projectId: "bubbo-technical-test-8ca32",
   storageBucket: "bubbo-technical-test-8ca32.appspot.com",
   messagingSenderId: "708058228376",
-  appId: "1:708058228376:web:0a1ad9f7f0c1cbf20992ed"
+  appId: "1:708058228376:web:0a1ad9f7f0c1cbf20992ed",
 };
 
 // Initialize Firebase

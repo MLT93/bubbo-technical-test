@@ -96,7 +96,7 @@ const Library = (props: {
             /**
              * ToDo: Encontrar la autenticación correcta y modificar las reglas de la base de datos en Firebase para que no tenga acceso todo el mundo
              */
-            Authorization: "OAuth 55c188a83546fc188e51576ba72836e0600e8b73",
+            Authorization: "Bearer XBAXJIxftvcYYTQ7k0Jn1hb0dsC2",
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
           },
