@@ -24,6 +24,9 @@ app.use(cors());
 app.post("/postgres/users/login", logIn);
 app.post("/postgres/users/signup", signUp);
 app.get("/postgres/users/logout", authorization, logOut);
+const { API_KEY } = process.env;
+app.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`, signUp)
+app.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`, logIn)
 // Test CRUD
 app.get("/postgres/books", getAll);
 app.get("/postgres/books/:id", getOneById);
@@ -36,7 +39,6 @@ app.get("/books/:id", getOneById);
 app.post("/books", create);
 app.put("/books/:id", updateById);
 app.delete("/books/:id", deleteById);
-
 // Listen port
 let PORT = process.env.PORT || 3007;
 app.listen(PORT, () => {

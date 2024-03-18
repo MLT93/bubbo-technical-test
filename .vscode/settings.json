@@ -13,5 +13,6 @@
     "editor.stickyScroll.maxLineCount": 5,
     "workbench.tree.enableStickyScroll": true,
     "editor.stickyScroll.scrollWithEditor": true,
-    "editor.stickyScroll.enabled": false
+    "editor.stickyScroll.enabled": false,
+    "cSpell.language": "en,es,it,lorem"
 }
