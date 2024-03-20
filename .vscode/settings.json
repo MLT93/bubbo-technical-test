@@ -1,18 +1,56 @@
 {
-    "cSpell.words": [
-        "bubbo",
-        "firestore",
-        "Formated",
-        "isbn",
-        "postgres",
-        "Pressable"
-    ],
-    "versionlens.suggestions.showOnStartup": false,
-    "breadcrumbs.enabled": true,
-    "editor.stickyScroll.defaultModel": "outlineModel",
-    "editor.stickyScroll.maxLineCount": 5,
-    "workbench.tree.enableStickyScroll": true,
-    "editor.stickyScroll.scrollWithEditor": true,
-    "editor.stickyScroll.enabled": false,
-    "cSpell.language": "en,es,it,lorem"
+  "cSpell.words": [
+    "bubbo",
+    "firestore",
+    "Formated",
+    "isbn",
+    "postgres",
+    "Pressable"
+  ],
+  "versionlens.suggestions.showOnStartup": false,
+  "breadcrumbs.enabled": false,
+  "editor.stickyScroll.defaultModel": "outlineModel",
+  "editor.stickyScroll.maxLineCount": 5,
+  "workbench.tree.enableStickyScroll": true,
+  "editor.stickyScroll.scrollWithEditor": true,
+  "editor.stickyScroll.enabled": false,
+  "cSpell.language": "en,es,it,lorem",
+  "files.autoSave": "afterDelay",
+  "editor.tabSize": 2,
+  "editor.renderWhitespace": "all",
+  "workbench.editor.enablePreview": false,
+  "editor.autoClosingBrackets": "always",
+  "editor.autoClosingComments": "always",
+  "editor.autoClosingDelete": "always",
+  "editor.autoClosingOvertype": "always",
+  "editor.autoClosingQuotes": "always",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.guides.bracketPairs": true,
+  "editor.indentSize": "tabSize",
+  "editor.linkedEditing": true,
+  "editor.cursorBlinking": "expand",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.cursorWidth": 3,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "editor.quickSuggestions": {
+    "comments": "on",
+    "strings": "on"
+  },
+  "editor.suggest.preview": true,
+  "files.autoSaveDelay": 3333,
+  "files.insertFinalNewline": true,
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.cursorStyle": "line",
+  "terminal.integrated.cursorWidth": 3,
+  "[dotenv]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[sql]": {
+    "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
+  },
+  "[ignore]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  }
 }

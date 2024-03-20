@@ -13,7 +13,7 @@ const firePassword = "123123123";
 const fireEmail = "asd@123.com";
 const { API_KEY } = process.env;
 const urlLogIn = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
-const urlSignUp = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`
+const urlSignUp = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
 
 const logIn = async (req: Request, res: Response) => {
   const { username, password, email } = req.body;
@@ -85,11 +85,9 @@ const signUp = async (req: Request, res: Response) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.error(`${errorCode}: ${errorMessage}`);
-      res
-        .status(404)
-        .json({
-          msg: `ATTENTION: ${errorCode} We have an error. ${errorMessage} `,
-        });
+      res.status(404).json({
+        msg: `ATTENTION: ${errorCode} We have an error. ${errorMessage} `,
+      });
     });
 
   if (user) {
